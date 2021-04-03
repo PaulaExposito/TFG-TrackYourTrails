@@ -18,7 +18,7 @@
     "prettier": "^2.2.1"
   },
   "scripts": {
-    "serve": "nodemon backend/app.js"
+    "serve": "nodemon --experimental-modules backend/app.mjs"
   },
   "repository": {
     "type": "git",
