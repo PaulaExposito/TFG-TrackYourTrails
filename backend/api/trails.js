@@ -2,12 +2,13 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const app = new Koa();
 
-const router = new Router({
-    prefix: '/api/users'
+let router = new Router({
+    prefix: '/api/trails'
 });
 
 router
     .get('/', async (ctx, next) => {
+        // incluir la opción de /trails?user="username" 
         ctx.body = "tututututu";
         await next();
     })
@@ -17,21 +18,17 @@ router
     .delete('/', async (ctx, next) => {
         await next();
     })
-    .get('/:user', async (ctx, next) => {
+    .get('/:trail', async (ctx, next) => {
         ctx.body = "tututututu";
         await next();
     })
-    .put('/:user', async (ctx, next) => {
+    .put('/:trail', async (ctx, next) => {
         await next();
     })
-    .delete('/:user', async (ctx, next) => {
+    .delete('/:trail', async (ctx, next) => {
         await next();
     })
-    .get('/:trail/friends', async (ctx, next) => {
-        ctx.body = "tututututu";
-        await next();
-    })
-    .get('/:trail/statistics', async (ctx, next) => {
+    .get('/:trail/points', async (ctx, next) => {
         ctx.body = "tututututu";
         await next();
     });
