@@ -6,6 +6,10 @@ async function getAllUsers() {
 }
 
 async function createUser(userDTO) {
+    const userExists = await User.findOne({ "username": userDTO.username });
+    if (userExists != null) 
+        return null;
+    
     const user = new User(userDTO);
     await user.save();
     return user;
@@ -17,31 +21,31 @@ async function deleteAllUsers() {
 }
 
 async function getUser(usernameDTO) {
-    const user = await User.find({ 
+    const user = await User.findOne({ 
         "username": usernameDTO
     });
-
-    return user[0];
+    return user;
 }
 
 async function updateUser(usernameDTO, userDataDTO) {
-    await User.updateOne({ "username": usernameDTO }, {$set: userDataDTO});
-    return `${usernameDTO} entry change to: ${JSON.stringify(userDataDTO)}`;    
+    const user = await User.updateOne({ "username": usernameDTO }, {$set: userDataDTO});
+    return await User.findOne({ "username": usernameDTO });    
 }
 
 async function deleteUser(usernameDTO) {
     await User.remove({ "username": usernameDTO });
-    return `${usernameDTO} deleted`;
 }
 
 async function getUserFriends(usernameDTO) {
-    const userFriends = await User.find({ "username": usernameDTO }, { "friends": 1 });
-    return userFriends;
+    if (await User.findOne({ "username": usernameDTO }) == null )
+        return null;
+    return await User.find({ "username": usernameDTO }, { "friends": 1 });
 }
 
 async function getUserStatistics(usernameDTO) {
-    const userStatistics = await User.find({ "username": usernameDTO }, { "statistics": 1 });
-    return userStatistics;
+    if (await User.findOne({ "username": usernameDTO }) == null )
+        return null;
+    return await User.find({ "username": usernameDTO }, { "statistics": 1 });
 }
 
 

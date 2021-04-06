@@ -22,7 +22,8 @@
   },
   "scripts": {
     "serve": "nodemon --experimental-modules backend/app.mjs",
-    "linter": "eslint backend"
+    "linter": "eslint backend",
+    "test:api": "newman run backend/test/postman/*.json"
   },
   "repository": {
     "type": "git",
@@ -33,5 +34,8 @@
   "bugs": {
     "url": "https://github.com/PaulaExposito/TFG-TrackYourTrails/issues"
   },
-  "homepage": "https://github.com/PaulaExposito/TFG-TrackYourTrails#readme"
+  "homepage": "https://github.com/PaulaExposito/TFG-TrackYourTrails#readme",
+  "dependencies": {
+    "newman": "^5.2.2"
+  }
 }
