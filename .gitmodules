@@ -1,0 +1,3 @@
+[submodule "mem"]
+	path = mem
+	url = git@github.com:ULL-TFGyMs-vblanco/TFG-2021-PaulaExposito-TrackYourTrails-Memoria.git
