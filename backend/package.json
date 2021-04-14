@@ -21,9 +21,9 @@
       "prettier": "^2.2.1"
     },
     "scripts": {
-      "serve": "nodemon --experimental-modules backend/app.mjs",
-      "linter": "eslint backend",
-      "test:api": "newman run backend/test/postman/*.json"
+      "serve": "nodemon --experimental-modules app.mjs",
+      "linter": "eslint .",
+      "test:api": "newman run test/postman/*.json"
     },
     "repository": {
       "type": "git",
@@ -39,3 +39,4 @@
       "newman": "^5.2.2"
     }
   }
+  
