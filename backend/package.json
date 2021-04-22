@@ -1,0 +1,33 @@
+{
+    "name": "trackyourtrails",
+    "version": "1.0.0",
+    "description": "",
+    "main": "backend/app.js",
+    "devDependencies": {
+      "koa": "^2.13.1",
+      "koa-body": "^4.2.0",
+      "koa-bodyparser": "^4.3.0",
+      "koa-logger": "^3.2.1",
+      "koa-mount": "^4.0.0",
+      "koa-router": "^10.0.0",
+      "mongoose": "^5.12.3",
+      "nodemon": "^2.0.7"
+    },
+    "scripts": {
+      "serve": "nodemon --experimental-modules app.mjs",
+      "test:api": "newman run test/postman/*.json"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/PaulaExposito/TFG-TrackYourTrails.git"
+    },
+    "author": "PaulaExposito",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/PaulaExposito/TFG-TrackYourTrails/issues"
+    },
+    "homepage": "https://github.com/PaulaExposito/TFG-TrackYourTrails#readme",
+    "dependencies": {
+      "newman": "^5.2.2"
+    }
+  }

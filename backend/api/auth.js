@@ -12,15 +12,15 @@ let router = new Router({
  */
 
 router
-    .get('/login', async (ctx, next) => {
+    .put('/login', async (ctx, next) => {
         ctx.body = "login";
         await next();
     })
-    .get('/signup', async (ctx, next) => {
+    .post('/signup', async (ctx, next) => {
         ctx.body = "signup";
         await next();
     })
-    .get('/logout', async (ctx, next) => {
+    .put('/logout', async (ctx, next) => {
         ctx.body = "logout";
         await next();
     });
