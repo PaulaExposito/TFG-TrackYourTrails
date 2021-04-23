@@ -7,7 +7,10 @@ const Event = new mongoose.Schema({
     equipment: String,
     users: Array,
     photos: Array,
-    owner: User,
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     active: Boolean
 });
 

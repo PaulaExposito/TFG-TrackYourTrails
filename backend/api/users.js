@@ -14,6 +14,9 @@ router
         ctx.response.status = 200;
         await next();
     })
+    /**
+     * ESTE ENDPOINT HAY QUE ELIMINARLO
+     */
     .post('/', async (ctx, next) => {
         const user = await userService.createUser(ctx.request.body)
         if (user == null) { 
@@ -26,6 +29,11 @@ router
         }
         await next();
     })
+    /********************************************************
+     * 
+     * 
+     * 
+     ********************************************************/
     .delete('/', async (ctx, next) => {
         ctx.response.body = await userService.deleteAllUsers();
         ctx.response.status = 200;
