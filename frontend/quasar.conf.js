@@ -7,6 +7,12 @@
 // https://v1.quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
 const ESLintPlugin = require('eslint-webpack-plugin')
+const process = require('process')
+
+process.on('SIGINT', () => {
+  console.log("Cerrando");
+  process.exit(0);
+})
 
 module.exports = function (/* ctx */) {
   return {
