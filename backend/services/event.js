@@ -46,4 +46,4 @@ module.exports = {
     getEvent,
     updateEvent,
     deleteEvent
-}
+};

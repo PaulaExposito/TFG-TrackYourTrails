@@ -18,7 +18,7 @@ router
      * ESTE ENDPOINT HAY QUE ELIMINARLO
      */
     .post('/', async (ctx, next) => {
-        const user = await userService.createUser(ctx.request.body)
+        const user = await userService.createUser(ctx.request.body);
         if (user == null) { 
             ctx.response.body = { msg: "User already exist" }; 
             ctx.response.status = 400;

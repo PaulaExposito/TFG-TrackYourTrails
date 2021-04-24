@@ -21,7 +21,7 @@ router
         await next();
     })
     .post('/', async (ctx, next) => {
-        const event = await eventService.createEvent(ctx.request.body)
+        const event = await eventService.createEvent(ctx.request.body);
         if (event == null) { 
             ctx.response.body = { msg: "Event already exist" }; 
             ctx.response.status = 400;

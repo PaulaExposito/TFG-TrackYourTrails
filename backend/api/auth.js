@@ -16,7 +16,7 @@ let router = new Router({
 
 router
     .post('/signup', async (ctx, next) => {
-        const user = await authService.signup(ctx.request.body)
+        const user = await authService.signup(ctx.request.body);
         if (user == null) { 
             ctx.response.body = { msg: "User already exist" }; 
             ctx.response.status = 400;
@@ -28,7 +28,7 @@ router
         await next();
     })
     .put('/login', async (ctx, next) => {
-        const user = await authService.login(ctx.request.body)
+        const user = await authService.login(ctx.request.body);
         if (user == null) { 
             ctx.response.body = { msg: "User not found" }; 
             ctx.response.status = 400;
@@ -40,7 +40,7 @@ router
         await next();
     })
     .put('/logout', async (ctx, next) => {
-        await authService.logout(ctx.request.body)
+        await authService.logout(ctx.request.body);
         // if (user == null) { 
         //     ctx.response.body = { msg: "User not found" }; 
         //     ctx.response.status = 400;

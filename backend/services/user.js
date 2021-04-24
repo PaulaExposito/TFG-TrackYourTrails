@@ -66,4 +66,4 @@ module.exports = {
     deleteUser,
     getUserFriends,
     getUserStatistics
-}
+};

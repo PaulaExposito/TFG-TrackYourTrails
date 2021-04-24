@@ -1,15 +1,15 @@
 FROM node:15.13.0-alpine
-RUN apk update
-RUN apk --update add git less openssh && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm /var/cache/apk/*
-
-STOPSIGNAL SIGINT
 
 WORKDIR /app
-COPY . .
-COPY ./package.json .
+
+# Importar antes sólo el package.json para no ejecutar el npm install
+# cada vez que se cambia algo del código.
+COPY package.json .
 RUN npm install
 
+COPY . .
+
+STOPSIGNAL SIGINT
 EXPOSE 3000
+
 CMD ["node", "app.mjs"]
