@@ -57,7 +57,7 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
+**/node_modules/
 jspm_packages/
 
 # TypeScript v1 declaration files
@@ -162,6 +162,6 @@ temp/
 docs/_book
 
 # TODO: where does this rule come from?
-test/
+# test/
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,vue,node,git
