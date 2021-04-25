@@ -43,8 +43,5 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage/coverage-final.json
 
-      - name: Upload coverage 2 
-        run: ./node_modules/.bin/codecov --token=${{ secrets.CODECOV_TOKEN }}
-
       - name: Upload coverage 3
         run: bash <(curl -s https://codecov.io/bash) -v -t ${{ secrets.CODECOV_TOKEN }}
