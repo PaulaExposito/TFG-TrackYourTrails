@@ -27,6 +27,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Go to Backend directory
+        run: cd backend
+
       - name: Install dependencies
       #  run: npm install
         run: npm ci
