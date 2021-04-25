@@ -2,12 +2,16 @@ name: Node API Tests CI
 
 on:
   push:
-    branches: [ main, api ]
+    branches: [ main, api, coverage ]
   pull_request:
     branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: backend
 
 jobs:
   build:
@@ -26,9 +30,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Go to Backend directory
-        run: cd backend
 
       - name: Install dependencies
       #  run: npm install
