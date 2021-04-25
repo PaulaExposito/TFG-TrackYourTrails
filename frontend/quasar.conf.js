@@ -9,10 +9,7 @@
 const ESLintPlugin = require('eslint-webpack-plugin')
 const process = require('process')
 
-process.on('SIGINT', () => {
-  console.log("Cerrando");
-  process.exit(0);
-})
+process.on('SIGINT', () => process.exit());
 
 module.exports = function (/* ctx */) {
   return {

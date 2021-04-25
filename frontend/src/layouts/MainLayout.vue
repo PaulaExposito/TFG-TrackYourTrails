@@ -15,6 +15,8 @@
           Quasar App
         </q-toolbar-title>
 
+        <q-btn color="white" text-color="black" label="API" v-on:click="fecth"/>
+
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
@@ -101,6 +103,17 @@ export default {
     return {
       leftDrawerOpen: false,
       essentialLinks: linksData
+    }
+  },
+  methods: {
+    fecth() {
+      console.log("on click fetch fdf")
+
+      fetch("/api/")
+        .then(res => { return res.json() })
+        .then(data => { console.log(`data = ${data}`) })
+        .catch(err => console.log(err))
+
     }
   }
 }
