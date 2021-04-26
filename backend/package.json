@@ -23,7 +23,7 @@
     "scripts": {
         "serve": "nodemon --experimental-modules app.mjs",
         "test": "jest",
-        "test:coverage": "jest --coverage",
+        "test:coverage": "npx jest --coverage --coverageDirectory test/jest/reports",
         "test:api": "newman run test/postman/*.json",
         "linter": "eslint .",
         "linter:fix": "eslint . --fix"

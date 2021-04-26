@@ -37,11 +37,11 @@ jobs:
       - name: Collect coverage report
         run: npm run test:coverage
 
-      # - name: Upload coverage to Codecov
-      #   uses: codecov/codecov-action@v1
-      #   with:
-      #     token: ${{ secrets.CODECOV_TOKEN }}
-      #     files: ./coverage/coverage-final.json
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./test/jest/reports/coverage-final.json
 
-      - name: Upload coverage 3
-        run: bash <(curl -s https://codecov.io/bash) -v -t ${{ secrets.CODECOV_TOKEN }}
+      # - name: Upload coverage 3
+      #   run: bash <(curl -s https://codecov.io/bash) -v -t ${{ secrets.CODECOV_TOKEN }}
