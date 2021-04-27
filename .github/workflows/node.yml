@@ -2,7 +2,7 @@ name: Node API Tests CI
 
 on:
   push:
-    branches: [ main, api, coverage ]
+    branches: [ main, api ]
   pull_request:
     branches: [ main ]
 

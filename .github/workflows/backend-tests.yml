@@ -1,8 +1,8 @@
-name: Tests Coverage with Codecov
+name: Backend tests Coverage to Codecov
 
 on:
   push:
-    branches: [ main, coverage ]
+    branches: [ main, api ]
   pull_request:
     branches: [ main ]
 
@@ -48,4 +48,4 @@ jobs:
 
       - name: Upload coverage
         # run: bash <(curl -s https://codecov.io/bash) -v -t ${{ secrets.CODECOV_TOKEN }}
-        run: ./node_modules/.bin/codecov --token="191990a0-077f-4ac1-9d84-c454bc0980cb"
+        run: ./node_modules/.bin/codecov --token="191990a0-077f-4ac1-9d84-c454bc0980cb" -c -F backend
