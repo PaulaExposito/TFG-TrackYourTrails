@@ -45,9 +45,11 @@ jobs:
       #     token: ${{ secrets.CODECOV_TOKEN }}
       #     files: ./coverage/coverage-final.json
 
-      - name: Install codecov
-        run: npm install -D codecov
+      # - name: Install codecov
+      #   run: npm install -D codecov
 
       - name: Upload coverage
         # run: bash <(curl -s https://codecov.io/bash) -v -t ${{ secrets.CODECOV_TOKEN }}
-        run: bash <(curl -s https://codecov.io/bash) --token="191990a0-077f-4ac1-9d84-c454bc0980cb" -c -F frontend
+        # run: bash <(curl -s https://codecov.io/bash) --token="191990a0-077f-4ac1-9d84-c454bc0980cb" -c -F frontend
+        run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -c -F frontend
+
