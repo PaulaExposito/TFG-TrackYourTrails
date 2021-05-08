@@ -1,9 +1,9 @@
 version: '3.7'
 services:
-  nginx:
+  quasar:
     build: ./frontend
     ports: 
-      - "8080:80"
+      - "8080:8080"
     networks:
       - backend
 
@@ -11,6 +11,9 @@ services:
     build: ./backend
     networks:
       - backend
+    # Quitar para no hacer el backend accesible por todo el mundo
+    ports:
+      - "3000:3000"
 
 networks:
   backend:

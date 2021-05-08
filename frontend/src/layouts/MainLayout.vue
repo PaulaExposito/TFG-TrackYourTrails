@@ -109,7 +109,7 @@ export default {
     fecth() {
       console.log("on click fetch fdf")
 
-      fetch("/api/")
+      fetch("http://localhost:3000/api/users")
         .then(res => { return res.json() })
         .then(data => { console.log(`data = ${data}`) })
         .catch(err => console.log(err))

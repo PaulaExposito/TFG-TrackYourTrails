@@ -1,4 +1,4 @@
-FROM node:14.16.0-alpine AS build
+FROM node:14.16.0-alpine
 STOPSIGNAL SIGINT
 EXPOSE 8080
 
@@ -15,15 +15,11 @@ COPY . .
 
 RUN quasar build
 
-#CMD ["quasar", "dev"]
+CMD ["quasar", "dev"]
 
 
-FROM nginx:1.19.0-alpine
-#WORKDIR /usr/share/nginx/html
-#RUN rm -rf ./*
-#COPY --from=build /app/dist/spa .
-#COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/dist/spa /usr/share/nginx/html
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+#FROM nginx:1.19.0-alpine
+#COPY --from=build /app/dist/spa /usr/share/nginx/html
+#COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
-CMD ["nginx", "-g", "daemon off;"]
+#CMD ["nginx", "-g", "daemon off;"]
