@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const User = require('./User.js');
 
 const Trail = new mongoose.Schema({
-    title: String,
-    user: User,
-    description: User,
+    title: { required: true, type: String },
+    user: { required: true, type: User },
+    description: String,
     date: Date,
     distance: Number,
     gradient: Number,

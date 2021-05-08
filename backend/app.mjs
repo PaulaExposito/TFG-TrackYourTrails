@@ -1,5 +1,6 @@
 import Koa from 'koa'
 import loaders from './loaders/index.mjs'
+import process from 'process'
 const PORT = 3000
 
 async function startServer() {
@@ -14,5 +15,10 @@ async function startServer() {
             console.log(`El servidor está listo en el puerto ${PORT}`)
     })
 }
+
+process.on('SIGINT', () => {
+    console.log("Cerrando");
+    process.exit(0);
+})
 
 startServer();

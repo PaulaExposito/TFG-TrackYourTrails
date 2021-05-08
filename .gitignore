@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,vue,node,git
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,vue,node,git
 
@@ -113,46 +112,46 @@ dist
 storybook-static
 
 # rollup.js default build output
-dist/
+**/dist/
 
 # Gatsby files
-.cache/
+**/.cache/
 # Comment in the public line in if your project uses Gatsby and not Next.js
 # https://nextjs.org/blog/next-9-1#public-directory-support
 # public
 
 # vuepress build output
-.vuepress/dist
+**/.vuepress/dist
 
 # Serverless directories
-.serverless/
+**/.serverless/
 
 # FuseBox cache
-.fusebox/
+**/.fusebox/
 
 # DynamoDB Local files
-.dynamodb/
+**/.dynamodb/
 
 # TernJS port file
-.tern-port
+**/.tern-port
 
 # Stores VSCode versions used for testing VSCode extensions
-.vscode-test
+**/.vscode-test
 
 # Temporary folders
-tmp/
-temp/
+**/tmp/
+**/temp/
 
 ### VisualStudioCode ###
-.vscode/*
-!.vscode/tasks.json
-!.vscode/launch.json
-*.code-workspace
+**/.vscode/*
+**/!.vscode/tasks.json
+**/!.vscode/launch.json
+**/*.code-workspace
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
-.history
-.ionide
+**/.history
+**/.ionide
 
 ### Vue ###
 # gitignore template for Vue.js projects
@@ -160,7 +159,7 @@ temp/
 # Recommended template: Node.gitignore
 
 # TODO: where does this rule come from?
-docs/_book
+**/docs/_book
 
 # TODO: where does this rule come from?
 # test/

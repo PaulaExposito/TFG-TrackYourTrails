@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  nginx:
+    build: ./frontend
+    ports: 
+      - "8080:80"
+    networks:
+      - backend
+
+  node:
+    build: ./backend
+    networks:
+      - backend
+
+networks:
+  backend:
+    name: app_backend

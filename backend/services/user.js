@@ -5,6 +5,10 @@ async function getAllUsers() {
     return users;
 }
 
+
+/**
+ * ESTA FUNCIÓN HAY QUE ELIMINARLA
+ */
 async function createUser(userDTO) {
     const userExists = await User.findOne({ "username": userDTO.username });
     if (userExists != null) 
@@ -14,6 +18,8 @@ async function createUser(userDTO) {
     await user.save();
     return user;
 }
+/*
+**********************************************/
 
 async function deleteAllUsers() {
     await User.remove({});
@@ -30,6 +36,8 @@ async function getUser(usernameDTO) {
 async function updateUser(usernameDTO, userDataDTO) {
     const user = await User.updateOne({ "username": usernameDTO }, {$set: userDataDTO});
     return await User.findOne({ "username": usernameDTO });    
+    // return await User.findOne({ "username": user.username });    // ?????    
+    // return await User.findOne({ "_id": user._id });    // ?????    
 }
 
 async function deleteUser(usernameDTO) {
@@ -51,11 +59,11 @@ async function getUserStatistics(usernameDTO) {
 
 module.exports = {
     getAllUsers, 
-    createUser,
+    //createUser,
     deleteAllUsers,
     getUser,
     updateUser,
     deleteUser,
     getUserFriends,
     getUserStatistics
-}
+};
