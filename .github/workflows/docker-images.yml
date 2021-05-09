@@ -57,6 +57,15 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
 
+      - name: Docker meta frontend
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ghcr.io/PaulaExposito/app-quasar
+          tag-sha: true
+          tag-edge: false
+          tag-latest: true
+
       - name: Build frontend image
         uses: docker/build-push-action@v2
         with:
