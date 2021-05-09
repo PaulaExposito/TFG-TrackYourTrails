@@ -24,7 +24,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ghcr.io/PaulaExposito/TFG-TrackYourTrails
+          images: docker.pkg.github.com/PaulaExposito/TFG-TrackYourTrails
           tag-sha: true
           tag-edge: false
           tag-latest: true
@@ -38,7 +38,7 @@ jobs:
       - name: Login to GH Packages
         uses: docker/login-action@v1
         with:
-          registry: ghcr.io
+          registry: docker.pkg.github.com
           username: ${{ github.action }}
           password: ${{ secrets.GH_PACKAGE_TOKEN  }}
       
@@ -48,11 +48,7 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           push: true
-          tags: |
-            PaulaExposito/app_node:latest
-            PaulaExposito/app_node:1.0.0
-            ghcr.io/PaulaExposito/app_node:latest
-            ghcr.io/PaulaExposito/app_node:1.0.0
+          tags: ${{ steps.docker_meta.outputs.tags }} 
 
       # - name: Push to GitHub Packages
       #   uses: docker/build-push-action@v1
