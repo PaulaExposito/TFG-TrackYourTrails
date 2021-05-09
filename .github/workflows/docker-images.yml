@@ -2,7 +2,7 @@ name: Publish Docker image in GitHub Packages
 
 on:
   push:
-    branches: [docker]
+    branches: [docker, main]
   release:
     types: [published]
 
