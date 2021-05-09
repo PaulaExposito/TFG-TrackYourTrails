@@ -46,7 +46,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           username: ${{ github.actor }}
-          password: ${{ secrets.GH_PACKAGE_TOKEN  }}
+          password: ${{ secrets.GITHUB_TOKEN   }}
           registry: docker.pkg.github.com
           context: ./backend
           file: ./backend/Dockerfile
