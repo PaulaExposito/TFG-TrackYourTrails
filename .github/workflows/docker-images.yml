@@ -48,7 +48,11 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           push: true
-          tags: ${{ steps.docker_meta.outputs.tags }} 
+          tags: |
+            PaulaExposito/app_node:latest
+            PaulaExposito/app_node:1.0.0
+            ghcr.io/PaulaExposito/app_node:latest
+            ghcr.io/PaulaExposito/app_node:1.0.0
 
       # - name: Push to GitHub Packages
       #   uses: docker/build-push-action@v1
