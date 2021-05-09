@@ -45,9 +45,10 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v2
         with:
+          context: ./backend
+          file: ./backend/Dockerfile
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }} 
-          file: ./backend/Dockerfile
 
       # - name: Push to GitHub Packages
       #   uses: docker/build-push-action@v1
