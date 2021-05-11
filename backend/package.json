@@ -6,11 +6,13 @@
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^4.20.0",
         "@typescript-eslint/parser": "^4.20.0",
+        "bcryptjs": "^2.4.3",
         "codecov": "^3.8.1",
         "eslint": "^7.23.0",
         "eslint-config-prettier": "^8.1.0",
         "eslint-plugin-prettier": "^3.3.1",
         "jest": "^26.6.3",
+        "jsonwebtoken": "^8.5.1",
         "koa": "^2.13.1",
         "koa-body": "^4.2.0",
         "koa-bodyparser": "^4.3.0",
@@ -25,7 +27,8 @@
         "serve": "nodemon --experimental-modules app.mjs",
         "test": "jest",
         "test:coverage": "jest --coverage",
-        "test:api": "newman run test/postman/*.json",
+        "test:api": "newman run test/postman/auth.collection.json -e test/postman/auth.environment.json && newman run test/postman/events.postman_collection.json",
+        "test:api:entero:no:funciona": "newman run test/postman/auth.collection.json -e test/postman/auth.environment.json && newman run test/postman/users.postman_collection.json && newman run test/postman/events.postman_collection.json",
         "linter": "eslint .",
         "linter:fix": "eslint . --fix"
     },
