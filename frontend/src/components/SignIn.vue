@@ -1,13 +1,5 @@
 <template>
-  <q-page padding class="flex">
-    <q-header elevated class="bg-primary text-white q-pt-sm q-pl-sm" height-hint="98">
-      <q-toolbar-title>Track Your Trails - Registro</q-toolbar-title>
-      <q-tabs align="center">
-        <q-route-tab to="/login" label="Login" />
-        <q-route-tab to="/signup" label="Sign Up" />
-      </q-tabs>
-    </q-header>
-
+	<div class="container">   
     <h3>Login</h3>
 
     <div align="center" class="q-pa-md" style="width: 400px">
@@ -19,7 +11,7 @@
       >
         <q-input
           filled
-          v-model="name"
+          v-model="username"
           label="Username"
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Introduce un nombre de usuario']"
@@ -43,35 +35,58 @@
         </div>
       </q-form>
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script>
+
+import { api } from '../boot/axios'
+import { notifyWarning, notifyCreated } from '../boot/utils'
+
 export default {
   name: 'LogIn',
   data () {
     return {
-      name: null,
+      username: null,
       password: null,
     }
   },
   methods: {
     onSubmit () {
-
+			this.logUser()
     },
     onReset () {
       this.name = null
       this.password = null
-    }
+    },
+		logUser () {
+			api.put('login', {
+				username: this.username,
+				password: this.password
+			})
+      .then(res => {
+        if (res.status == 200)
+          return res.data
+      })
+			.then(data => {
+				this.$store.dispatch('signInAction', {
+					token: data.token
+				});
+				notifyCreated(this, "Usuario loggeado");
+				this.$router.push('/');
+			})
+			.catch(err => {
+				console.log(err)
+				if (err.status == 409) 
+					notifyWarning(this, 'Falta el usuario y la contraseña');
+				else if (err.status == 404)
+					notifyWarning(this, 'Este usuario no existe');
+				else if (err.status == 401)
+					notifyWarning(this, 'Contraseña incorrecta');
+				else 
+					notifyWarning(this, 'Error en el servidor');
+			})
+		}
   }
 }
 </script>
-
-<style>
-.flex {
-  display: flexbox;
-  flex-direction: column;
-  /* justify-content: center; */
-  align-items: center;
-}
-</style>

@@ -2,7 +2,7 @@
 	<div class="container">   
 			<h3>Regístrate</h3>
 
-			<div align="center" class="q-pa-md" style="max-width: 400px">
+			<div align="center" class="q-pa-md" style="width: 400px">
 
 				<q-form
 					@submit="onSubmit"
@@ -11,7 +11,7 @@
 				>
 					<q-input
 						filled
-						v-model="name"
+						v-model="username"
 						label="Username"
 						lazy-rules
 						:rules="[ val => val && val.length > 0 || 'Introduce un nombre de usuario']"
@@ -55,12 +55,13 @@
 <script>
 
 import { api } from '../boot/axios'
+import { notifyWarning, notifyCreated } from '../boot/utils'
 
 export default {
   name: 'SignIn',
 	data() {
 		return {
-			name: null,
+			username: null,
       password: null,
       repeatPassword: null,
       accept: false,
@@ -69,34 +70,13 @@ export default {
 	methods: {
 	  onSubmit () {
       if (this.password === this.repeatPassword) {
-        if (this.accept !== true) {
-          this.$q.notify({
-            color: 'red-5',
-            textColor: 'white',
-            icon: 'warning',
-            message: 'Debes aceptar las condiciones y términos de uso'
-          })
-        }
-        else {
-
+        if (this.accept !== true) 
+					notifyWarning(this, 'Debes aceptar las condiciones y términos de uso')
+        else 
           this.createUser()
-
-          this.$q.notify({
-            color: 'green-4',
-            textColor: 'white',
-            icon: 'cloud_done',
-            message: 'Cuenta creada'
-          })
-        }
       }
-      else {
-        this.$q.notify({
-          color: 'red-5',
-          textColor: 'white',
-          icon: 'warning',
-          message: 'Las contraseñas no coinciden'
-        })
-      }
+      else
+          notifyWarning(this, 'Las contraseñas no coinciden')
     },
     onReset () {
       this.name = null
@@ -105,23 +85,28 @@ export default {
       this.accept = false
     },
     createUser() {
-      // fetch("http://localhost:3000/api/users")
-      //   .then(res => { return res.json() })
-      //   .then(data => { console.log(`data = ${data}`) })
-      //   .catch(err => console.log(err))
-
-			api.post('/users', {
+			api.post('/signup', {
 				username: this.username,
 				password: this.password
 			})
-				.then( res => {
-					console.log(res)
-					return res.json()
+				.then(res => {
+					if (res.status == 201)
+						return res.data
 				})
 				.then(data => {
-					console.log(`data = ${data}`)
+					this.$store.dispatch('signInAction', {
+						token: data.token
+					})
+
+					notifyCreated(this, 'Usuario creado')
+					this.$router.push('/')
 				})
-				.catch(err => console.log(err))
+				.catch(err => {
+					if (err.status == 409)
+						notifyWarning(this, 'Este usuario ya existe')
+					else 
+						notifyWarning(this, 'Error en el servidor')
+				})
 		}
 	}
 }

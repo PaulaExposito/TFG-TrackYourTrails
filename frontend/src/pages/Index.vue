@@ -4,6 +4,8 @@
       alt="Quasar logo"
       src="~assets/quasar-logo-full.svg"
     >
+
+    <div> token: {{ $store.getters.token }} </div>
   </q-page>
 </template>
 

@@ -3,36 +3,35 @@
     <q-header elevated class="bg-primary text-white q-pt-sm q-pl-sm" height-hint="98">
       <q-toolbar-title>Track Your Trails - Registro</q-toolbar-title>
       <q-tabs align="center" v-model="tab">
-        <q-tab name="login" label="Login" @click="loginTab"/>
-        <q-tab name="signup" label="SignUp" default=true />
-
-        <!-- <q-route-tab to="/login" label="Login" />
-        <q-route-tab to="/signup" label="Sign Up" /> --> 
+        <q-tab name="login" label="LogIn"/>
+        <q-tab name="signup" label="SignUp"/>
       </q-tabs>
     </q-header>
 
-    <SignUp/>
+    <template v-if="tab === 'signup'">
+      <SignUp/>
+    </template>
+    <template v-else>
+      <LogIn/>
+    </template>
   </q-page>
 </template>
 
 <script>
 import SignUp from '../components/SignUp.vue'
+import LogIn from '../components/SignIn.vue'
 
 export default {
   name: 'Register',
   components: {
-    SignUp
+    SignUp,
+    LogIn
   },
   data () {
     return {
-      tab: "signup"
+      tab: "login"
     }
   },
-  methods: {
-    loginTab() {
-      
-    }
-  }
 }
 </script>
 
