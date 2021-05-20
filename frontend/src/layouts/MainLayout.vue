@@ -10,27 +10,22 @@
           Track Your Trails
         </q-toolbar-title>
       </q-toolbar>
-
-      <q-tabs align="left">
-        <q-route-tab to="/login" label="Login" />
-        <q-route-tab to="/signup" label="Sign Up" />
-        <q-route-tab to="/page3" label="Page Three" />
-      </q-tabs>
     </q-header>
 
     <q-page-container>
       <router-view />
     </q-page-container>
 
-    <q-footer elevated class="bg-grey-8 text-white">
-      <q-toolbar>
-        <q-toolbar-title>
-          <!-- <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
-          </q-avatar> -->
-          Footer
-        </q-toolbar-title>
-      </q-toolbar>
+    <q-footer elevated class="bg-primary text-white">
+      <q-tabs align="center">
+        <q-route-tab to="/explore"><div class="align-items"><span class="material-icons nav-icons">search</span>Explora</div></q-route-tab>
+        <q-route-tab to="/tracker"><div class="align-items"><span class="material-icons nav-icons">timer</span>Iniciar</div></q-route-tab>
+        <q-route-tab to="/events"><div class="align-items"><span class="material-icons nav-icons">event</span>Eventos</div></q-route-tab>
+
+        <!-- vue if para ver si hay un usuario registrado o no -->
+        <q-route-tab to="/register" label="Perfil/Registro" />
+      </q-tabs>
+
     </q-footer>
 
   </q-layout>
@@ -43,15 +38,15 @@ export default {
     }
   }
 }
-  // methods: {
-  //   fecth() {
-  //     console.log("on click fetch fdf")
-
-  //     fetch("http://localhost:3000/api/users")
-  //       .then(res => { return res.json() })
-  //       .then(data => { console.log(`data = ${data}`) })
-  //       .catch(err => console.log(err))
-
-  //   }
-  // }
 </script>
+
+<style scoped>
+.nav-icons {
+  margin-right: 12px;
+}
+
+.align-items {
+  display: flex;
+  align-items: center;
+}
+</style>
