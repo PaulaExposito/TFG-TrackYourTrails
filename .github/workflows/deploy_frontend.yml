@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+
+    - name: Build Quasar app
+      run: |
+        npm install -g @quasar/cli
+        quasar build
     
     - name: Login to Heroku Container registry
       env: 

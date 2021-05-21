@@ -6,6 +6,7 @@
     >
 
     <div> (: token: {{ $store.getters.token }} </div>
+    <div> Despliegue continuo :D </div>
   </q-page>
 </template>
 
