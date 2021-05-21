@@ -1,7 +1,7 @@
-import Koa from 'koa'
-import loaders from './loaders/index.mjs'
-import process from 'process'
-const PORT = 3000
+import Koa from 'koa';
+import loaders from './loaders/index.mjs';
+import process from 'process';
+const PORT = process.env.PORT || 3000;
 
 async function startServer() {
     

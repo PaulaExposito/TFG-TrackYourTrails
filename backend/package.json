@@ -30,7 +30,8 @@
         "test:api": "newman run test/postman/auth.collection.json -e test/postman/auth.environment.json && newman run test/postman/events.postman_collection.json",
         "test:api:entero:no:funciona": "newman run test/postman/auth.collection.json -e test/postman/auth.environment.json && newman run test/postman/users.postman_collection.json && newman run test/postman/events.postman_collection.json",
         "linter": "eslint .",
-        "linter:fix": "eslint . --fix"
+        "linter:fix": "eslint . --fix",
+        "start": "node --experimental-modules app.mjs"
     },
     "repository": {
         "type": "git",

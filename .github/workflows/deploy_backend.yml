@@ -12,28 +12,17 @@ jobs:
         uses: actions/checkout@v2
 
 
-      # - name: Build, push and release Docker container to Heroku
-      #   uses: gonuit/heroku-docker-deploy@v1.3.3
-      #   with:
-      #     email: ${{ secrets.HEROKU_EMAIL }}
-      #     heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-      #     heroku_app_name: ${{ secrets.HEROKU_APP_BACKEND_NAME }}
-
-      #     dockerfile_directory: ./backend
-      #     dockerfile_name: Dockerfile
-
-      #     docker_options: "--no-cache"
-
-      #     process_type: web
-
-      - name: Build, Push and Deploy to Heroku # set whatever name you want to this step
-        id: heroku
-        uses: jctaveras/heroku-deploy@v1.0.0 # use the latest version of the action
+      - name: Build, push and release Docker container to Heroku
+        uses: gonuit/heroku-docker-deploy@v1.3.3
         with:
-          email: ${{ secrets.HEROKU_EMAIL }} # your heroku email
-          api_key: ${{ secrets.HEROKU_API_KEY }} # your heroku api key
-          app_name: ${{ secrets.HEROKU_APP_BACKEND_NAME }} # you aplication name
-          dockerfile_path: './backend' # set the path to the folder where the Dockerfile is located
-          options: '' # Docker Build Options
-          formation: '' # Docker Dyno Formation. By default is web
+          email: ${{ secrets.HEROKU_EMAIL }}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_BACKEND_NAME }}
+
+          dockerfile_directory: ./backend
+          dockerfile_name: Dockerfile
+
+          docker_options: "--no-cache"
+
+          process_type: web
           
