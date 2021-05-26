@@ -5,7 +5,7 @@
       src="~assets/quasar-logo-full.svg"
     >
 
-    <div> (: token: {{ $store.getters.token }} </div>
+    <!-- <div> (: token: {{ $store.getters.token }} </div> -->
   </q-page>
 </template>
 

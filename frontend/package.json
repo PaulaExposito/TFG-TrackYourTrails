@@ -29,9 +29,11 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-vue": "^7.7.0",
     "eslint-webpack-plugin": "^2.4.0",
-    "eslint-plugin-jest": "^24.1.0"
+    "flush-promises": "^1.0.2",
+    "nock": "^13.0.11"
   },
   "browserslist": [
     "last 10 Chrome versions",

@@ -1,6 +1,6 @@
 <template>
 	<div class="container">   
-    <h3>Login</h3>
+    <h3 id="title">Login</h3>
 
     <div align="center" class="q-pa-md" style="width: 400px">
 
@@ -10,6 +10,7 @@
         class="q-gutter-md"
       >
         <q-input
+          id="username"
           filled
           v-model="username"
           label="Username"
@@ -18,6 +19,7 @@
         />
 
         <q-input
+          id="password"
           filled
           type="password"
           v-model="password"
@@ -30,8 +32,8 @@
         />
 
         <div>
-          <q-btn label="Submit" type="submit" color="primary"/>
-          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+          <q-btn id="submit" label="Submit" type="submit" color="primary"/>
+          <q-btn id="reset" label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
         </div>
       </q-form>
     </div>
@@ -52,14 +54,11 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
-			this.logUser()
-    },
     onReset () {
       this.name = null
       this.password = null
     },
-		logUser () {
+		onSubmit () {     // log user
 			api.put('login', {
 				username: this.username,
 				password: this.password
@@ -76,7 +75,8 @@ export default {
 				this.$router.push('/');
 			})
 			.catch(err => {
-				console.log(err)
+				// console.log(err)
+        this.reset()
 				if (err.status == 409) 
 					notifyWarning(this, 'Falta el usuario y la contraseña');
 				else if (err.status == 404)
