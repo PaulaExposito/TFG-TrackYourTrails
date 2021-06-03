@@ -44,8 +44,8 @@
 					<q-toggle v-model="accept" label="Acepto las condiciones y términos de uso" />
 
 					<div>
-						<q-btn label="Submit" type="submit" color="primary"/>
-						<q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+						<q-btn label="Submit" type="submit" color="secondary"/>
+						<q-btn label="Reset" type="reset" color="secondary" flat class="q-ml-sm" />
 					</div>
 				</q-form>
 			</div>

@@ -32,8 +32,8 @@
         />
 
         <div>
-          <q-btn id="submit" label="Submit" type="submit" color="primary"/>
-          <q-btn id="reset" label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+          <q-btn id="submit" label="Submit" type="submit" color="secondary"/>
+          <q-btn id="reset" label="Reset" type="reset" color="secondary" flat class="q-ml-sm" />
         </div>
       </q-form>
     </div>

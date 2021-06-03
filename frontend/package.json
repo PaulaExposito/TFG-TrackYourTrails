@@ -20,7 +20,9 @@
     "@quasar/extras": "^1.0.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "quasar": "^1.0.0"
+    "leaflet": "^1.7.1",
+    "quasar": "^1.0.0",
+    "vue2-leaflet": "^2.7.0"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",
@@ -33,7 +35,9 @@
     "eslint-plugin-vue": "^7.7.0",
     "eslint-webpack-plugin": "^2.4.0",
     "flush-promises": "^1.0.2",
-    "nock": "^13.0.11"
+    "mapbox-gl": "^2.3.0",
+    "nock": "^13.0.11",
+    "workbox-webpack-plugin": "^5.1.4"
   },
   "browserslist": [
     "last 10 Chrome versions",

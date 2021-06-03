@@ -14,3 +14,6 @@ export default {
   name: 'PageIndex'
 }
 </script>
+
+<style scoped lang="scss">
+</style>
