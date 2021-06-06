@@ -8,7 +8,7 @@
     
 		<div class="flex-row data">
 			<div class="time">Tiempo <br> 00:00:00 </div>
-			<div class="distance"> Distancia <br> 1km 50m</div>
+			<div class="distance"> Distancia <br> 0m</div>
 		</div>
 		
     <div class="flex-row control">
@@ -28,8 +28,8 @@ export default {
 
 <style scoped lang="scss">
 .container {
-	background-color: #e9e9e9;
-  font-family: monospace;
+	background-color: $lightgray;
+  // font-family: monospace;
 	// color: whitesmoke;
 	height: 100%;
   width: 100%;
@@ -71,8 +71,11 @@ export default {
   border-radius: 50%;
   height: 70px;
   width: 70px;
-  border: 3px solid $primary;
-	background-color: rgba(209, 73, 31, 0.521);
+  border: 1px solid $primary;
+	// background-color: rgba(209, 73, 31, 0.521);
+    filter: drop-shadow(0 0 2px $primary);
+	background-color: $primary;
+  color: white;
 	// background-color: ;
 }
 </style>

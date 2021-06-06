@@ -1,54 +1,54 @@
 <template>
 	<div class="container">   
-			<h3>Regístrate</h3>
+		<br><h3>Regístrate</h3>
 
-			<div align="center" class="q-pa-md" style="width: 400px">
+		<div align="center" class="q-pa-md form" style="width: 400px">
 
-				<q-form
-					@submit="onSubmit"
-					@reset="onReset"
-					class="q-gutter-md"
-				>
-					<q-input
-						filled
-						v-model="username"
-						label="Username"
-						lazy-rules
-						:rules="[ val => val && val.length > 0 || 'Introduce un nombre de usuario']"
-					/>
+			<q-form
+				@submit="onSubmit"
+				@reset="onReset"
+				class="q-gutter-md"
+			>
+				<q-input
+					filled
+					v-model="username"
+					label="Usuario"
+					lazy-rules
+					:rules="[ val => val && val.length > 0 || 'Introduce un nombre de usuario']"
+				/>
 
-					<q-input
-						filled
-						type="password"
-						v-model="password"
-						label="Contraseña"
-						lazy-rules
-						:rules="[
-							val => val !== null && val !== '' || 'Introduce una contraseña',
-							val => val.length >= 4 ||'La consetraseña debe tener al menos 4 caracteres'
-						]"
-					/>
+				<q-input
+					filled
+					type="password"
+					v-model="password"
+					label="Contraseña"
+					lazy-rules
+					:rules="[
+						val => val !== null && val !== '' || 'Introduce una contraseña',
+						val => val.length >= 4 ||'La consetraseña debe tener al menos 4 caracteres'
+					]"
+				/>
 
-					<q-input
-						filled
-						type="password"
-						v-model="repeatPassword"
-						label="Repite la contraseña"
-						lazy-rules
-						:rules="[
-							val => val !== null && val !== '' || 'Introduce una contraseña',
-							val => val.length >= 4 ||'La contraseña debe tener al menos 4 caracteres'
-						]"
-					/>
+				<q-input
+					filled
+					type="password"
+					v-model="repeatPassword"
+					label="Repite la contraseña"
+					lazy-rules
+					:rules="[
+						val => val !== null && val !== '' || 'Introduce una contraseña',
+						val => val.length >= 4 ||'La contraseña debe tener al menos 4 caracteres'
+					]"
+				/>
 
-					<q-toggle v-model="accept" label="Acepto las condiciones y términos de uso" />
+				<q-toggle v-model="accept" label="Acepto las condiciones y términos de uso" />
 
-					<div>
-						<q-btn label="Submit" type="submit" color="secondary"/>
-						<q-btn label="Reset" type="reset" color="secondary" flat class="q-ml-sm" />
-					</div>
-				</q-form>
-			</div>
+				<div>
+					<q-btn label="Submit" type="submit" color="secondary"/>
+					<q-btn label="Reset" type="reset" color="secondary" flat class="q-ml-sm" />
+				</div>
+			</q-form>
+		</div>
 	</div>
 </template>
 
@@ -111,3 +111,13 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss" scoped>
+.form {
+  background-color: rgba(233, 233, 233, 0.95);
+}
+
+h3 {
+  filter: drop-shadow(0 0 7px white);
+}
+</style>

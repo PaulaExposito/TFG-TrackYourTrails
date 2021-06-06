@@ -1,8 +1,8 @@
 <template>
 	<div class="container">   
-    <h3 id="title">Login</h3>
+    <br><h3 id="title">Login</h3>
 
-    <div align="center" class="q-pa-md" style="width: 400px">
+    <div align="center" class="q-pa-md form" style="width: 400px">
 
       <q-form
         @submit="onSubmit"
@@ -13,7 +13,7 @@
           id="username"
           filled
           v-model="username"
-          label="Username"
+          label="Usuario"
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Introduce un nombre de usuario']"
         />
@@ -90,3 +90,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.form {
+  background-color: rgba(233, 233, 233, 0.95);
+}
+
+h3 {
+  filter: drop-shadow(0 0 7px white);
+}
+</style>
