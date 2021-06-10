@@ -13,9 +13,9 @@ RUN npm install
 
 COPY . .
 
-RUN quasar build
+RUN quasar build -m pwa
 
-CMD ["quasar", "dev"]
+CMD ["quasar", "dev",  "-m", "pwa"]
 
 
 #FROM nginx:1.19.0-alpine
