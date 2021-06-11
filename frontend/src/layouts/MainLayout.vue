@@ -22,12 +22,12 @@
         <q-route-tab to="/tracker"><div class="align-items"><span class="material-icons nav-icons">timer</span>Iniciar</div></q-route-tab>
         <q-route-tab to="/events"><div class="align-items"><span class="material-icons nav-icons">event</span>Eventos</div></q-route-tab>
 
-        <!-- <template v-if="$store.getters.token === null">
+        <template v-if="$store.getters.token === null">
           <q-route-tab to="/register"><div class="align-items"><span class="material-icons nav-icons">login</span>Regístrate</div></q-route-tab>
         </template>
-        <template v-else> -->
+        <template v-else>
           <q-route-tab to="/profile"><div class="align-items"><span class="material-icons nav-icons">perm_identity</span>Perfil</div></q-route-tab>
-        <!-- </template> -->
+        </template>
       </q-tabs>
 
     </q-footer>

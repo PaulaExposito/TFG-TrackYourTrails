@@ -95,14 +95,15 @@ export default {
 				})
 				.then(data => {
 					this.$store.dispatch('signInAction', {
-						token: data.token
+						token: data.token,
+						username: this.username
 					})
 
 					notifyCreated(this, 'Usuario creado')
 					this.$router.push('/')
 				})
 				.catch(err => {
-					if (err.status == 409)
+					if (err.response.status == 409)
 						notifyWarning(this, 'Este usuario ya existe')
 					else 
 						notifyWarning(this, 'Error en el servidor')

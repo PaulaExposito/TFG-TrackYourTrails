@@ -12,7 +12,7 @@
 		</div>
 		
     <div class="flex-row control">
-      <button class="start show">INICIAR</button>
+      <button class="start show" @click="start">INICIAR</button>
       <button class="pause hide">PAUSAR</button>
       <button class="stop hide">FINALIZAR</button>
     </div>
@@ -23,6 +23,19 @@
 <script>
 export default {
 	name: "ControlBox",
+  methods: {
+    start() {
+      console.log("Start clicked (component)")
+
+      // navigator.serviceWorker.controller.postMessage({
+      //   type: "START_TRACKER"
+      // });
+
+      console.log(navigator.serviceWorker.controller);
+      navigator.serviceWorker.offline;
+
+    }
+  }
 }
 </script>
 

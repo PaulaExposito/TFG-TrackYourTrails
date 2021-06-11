@@ -47,18 +47,23 @@ async function updateUser(usernameDTO, userDataDTO) {
 
     // Si la contraseña es diferente a la actual (puede que se rellene un formulario y siempre
     // esté la contraseña como un campo a actualizar pero en realidad no se quiere actualizar)
-    const actualPass = user.password
-    const newPass = await user.encryptPass(userDataDTO.password);
-    const verify = await user.validatePass(userDataDTO.password);
+    if (usernameDTO.password !== null) {
+        const actualPass = user.password
+        
+        const newPass = await user.encryptPass(userDataDTO.password);
+        const verify = await user.validatePass(userDataDTO.password);
+        console.log(verify);
 
-    if (actualPass == newPass)
-        userDataDTO.password = user.password
-    else
-        userDataDTO.password = newPass
+        if (user.password === userDataDTO.password)
+            // userDataDTO.password = user.password
+            delete userDataDTO.password;
+        else
+            userDataDTO.password =  await user.encryptPass(userDataDTO.password);
+    }
 
     await User.updateOne({ "username": usernameDTO }, {$set: userDataDTO});
 
-    return userDataDTO;
+    return await User.findOne({ "username": userDataDTO.username });
     // return await User.findOne({ "username": usernameDTO });    
     // return await User.findOne({ "username": user.username });    // ?????    
     // return await User.findOne({ "_id": user._id });    // ?????    

@@ -10,6 +10,7 @@ const routes = [
       { path: 'explore', component: () => import('pages/Explore.vue')},
       { path: 'trail', component: () => import('pages/Trail.vue')},
       { path: 'events', component: () => import('pages/Events.vue')},
+      { path: 'profile', component: () => import('pages/Profile.vue')},
       // { path: 'login', component: () => import('pages/Login.vue') }
     ]
   },

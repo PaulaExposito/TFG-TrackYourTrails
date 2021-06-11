@@ -55,8 +55,8 @@ export default {
   },
   methods: {
     onReset () {
-      this.name = null
-      this.password = null
+      this.username = null;
+      this.password = null;
     },
 		onSubmit () {     // log user
 			api.put('login', {
@@ -69,19 +69,20 @@ export default {
       })
 			.then(data => {
 				this.$store.dispatch('signInAction', {
-					token: data.token
+					token: data.token,
+          username: this.username
 				});
-				notifyCreated(this, "Usuario loggeado");
+				notifyCreated(this, "Usuario autenticado correctamente");
 				this.$router.push('/');
 			})
 			.catch(err => {
-				// console.log(err)
-        this.reset()
-				if (err.status == 409) 
+				console.log(err)
+        this.onReset()
+				if (err.response.status == 409) 
 					notifyWarning(this, 'Falta el usuario y la contraseña');
-				else if (err.status == 404)
+				else if (err.response.status == 404)
 					notifyWarning(this, 'Este usuario no existe');
-				else if (err.status == 401)
+				else if (err.response.status == 401)
 					notifyWarning(this, 'Contraseña incorrecta');
 				else 
 					notifyWarning(this, 'Error en el servidor');
