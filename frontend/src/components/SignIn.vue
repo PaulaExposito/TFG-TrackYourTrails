@@ -1,8 +1,8 @@
 <template>
 	<div class="container">   
-    <h3>Login</h3>
+    <br><h3 id="title">Login</h3>
 
-    <div align="center" class="q-pa-md" style="width: 400px">
+    <div align="center" class="q-pa-md form" style="width: 400px">
 
       <q-form
         @submit="onSubmit"
@@ -10,14 +10,16 @@
         class="q-gutter-md"
       >
         <q-input
+          id="username"
           filled
           v-model="username"
-          label="Username"
+          label="Usuario"
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Introduce un nombre de usuario']"
         />
 
         <q-input
+          id="password"
           filled
           type="password"
           v-model="password"
@@ -30,8 +32,8 @@
         />
 
         <div>
-          <q-btn label="Submit" type="submit" color="primary"/>
-          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+          <q-btn id="submit" label="Submit" type="submit" color="secondary"/>
+          <q-btn id="reset" label="Reset" type="reset" color="secondary" flat class="q-ml-sm" />
         </div>
       </q-form>
     </div>
@@ -52,14 +54,11 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
-			this.logUser()
-    },
     onReset () {
-      this.name = null
-      this.password = null
+      this.username = null;
+      this.password = null;
     },
-		logUser () {
+		onSubmit () {     // log user
 			api.put('login', {
 				username: this.username,
 				password: this.password
@@ -70,18 +69,20 @@ export default {
       })
 			.then(data => {
 				this.$store.dispatch('signInAction', {
-					token: data.token
+					token: data.token,
+          username: this.username
 				});
-				notifyCreated(this, "Usuario loggeado");
+				notifyCreated(this, "Usuario autenticado correctamente");
 				this.$router.push('/');
 			})
 			.catch(err => {
 				console.log(err)
-				if (err.status == 409) 
+        this.onReset()
+				if (err.response.status == 409) 
 					notifyWarning(this, 'Falta el usuario y la contraseña');
-				else if (err.status == 404)
+				else if (err.response.status == 404)
 					notifyWarning(this, 'Este usuario no existe');
-				else if (err.status == 401)
+				else if (err.response.status == 401)
 					notifyWarning(this, 'Contraseña incorrecta');
 				else 
 					notifyWarning(this, 'Error en el servidor');
@@ -90,3 +91,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.form {
+  background-color: rgba(233, 233, 233, 0.95);
+}
+
+h3 {
+  filter: drop-shadow(0 0 7px white);
+}
+</style>

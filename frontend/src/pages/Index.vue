@@ -5,8 +5,7 @@
       src="~assets/quasar-logo-full.svg"
     >
 
-    <div> (: token: {{ $store.getters.token }} </div>
-    <div> Despliegue continuo :D </div>
+    <!-- <div> (: token: {{ $store.getters.token }} </div> -->
   </q-page>
 </template>
 
@@ -15,3 +14,6 @@ export default {
   name: 'PageIndex'
 }
 </script>
+
+<style scoped lang="scss">
+</style>

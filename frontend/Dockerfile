@@ -13,8 +13,12 @@ RUN npm install
 
 COPY . .
 
-RUN quasar build
+# RUN quasar build -m pwa
 
+# CMD ["quasar", "dev",  "-m", "pwa"]
+
+
+RUN quasar build
 CMD ["quasar", "dev"]
 
 

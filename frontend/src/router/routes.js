@@ -6,6 +6,11 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'register', component: () => import('pages/Register.vue') },
+      { path: 'tracker', component: () => import('pages/Tracker.vue')},
+      { path: 'explore', component: () => import('pages/Explore.vue')},
+      { path: 'trail', component: () => import('pages/Trail.vue')},
+      { path: 'events', component: () => import('pages/Events.vue')},
+      { path: 'profile', component: () => import('pages/Profile.vue')},
       // { path: 'login', component: () => import('pages/Login.vue') }
     ]
   },

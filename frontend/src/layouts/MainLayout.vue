@@ -44,7 +44,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+bg-primary {
+  background-color: $primary;
+}
+
 .nav-icons {
   margin-right: 12px;
 }

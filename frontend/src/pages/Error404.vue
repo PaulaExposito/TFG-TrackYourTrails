@@ -27,3 +27,6 @@ export default {
   name: 'Error404'
 }
 </script>
+
+<style scoped lang="scss">
+</style>

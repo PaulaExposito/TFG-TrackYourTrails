@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Event = require('../models/Event');
 
 async function getAllUsers() {
     const users = await User.find();
@@ -47,21 +48,58 @@ async function updateUser(usernameDTO, userDataDTO) {
 
     // Si la contraseña es diferente a la actual (puede que se rellene un formulario y siempre
     // esté la contraseña como un campo a actualizar pero en realidad no se quiere actualizar)
-    const actualPass = user.password
-    const newPass = await user.encryptPass(userDataDTO.password);
-    const verify = await user.validatePass(userDataDTO.password);
+    if (usernameDTO.password !== null) {
+        const actualPass = user.password
+        
+        const newPass = await user.encryptPass(userDataDTO.password);
+        const verify = await user.validatePass(userDataDTO.password);
+        console.log(verify);
 
-    if (actualPass == newPass)
-        userDataDTO.password = user.password
-    else
-        userDataDTO.password = newPass
+        if (user.password === userDataDTO.password)
+            // userDataDTO.password = user.password
+            delete userDataDTO.password;
+        else
+            userDataDTO.password =  await user.encryptPass(userDataDTO.password);
+    }
 
     await User.updateOne({ "username": usernameDTO }, {$set: userDataDTO});
 
-    return userDataDTO;
+    return await User.findOne({ "username": userDataDTO.username });
     // return await User.findOne({ "username": usernameDTO });    
     // return await User.findOne({ "username": user.username });    // ?????    
     // return await User.findOne({ "_id": user._id });    // ?????    
+}
+
+async function updateUserEvents(usernameDTO, eventDTO) {
+    const user = await User.findOne({ "username": usernameDTO });
+    let events = user.events;
+    let newEvents = [];
+
+    console.log(`user events -> ${events}`)
+    console.log(`user eventDTO -> ${eventDTO.toString()}`)
+    console.log(`user eventDTO data: -> ${eventDTO.event_id} y ${eventDTO.title}`)
+    const event = await Event.findOne({ "title": eventDTO.title });
+    if (!user || !event)
+        return -1;
+
+    let index = -1;
+    for (let i in events) {
+        console.log(`if ${events[i].eventId} != ${eventDTO.event_id}`)
+        if (events[i].eventId != eventDTO.event_id)
+            newEvents.push(events[i]);
+        else
+            console.log(`if en index ${i}`)
+    }
+
+    console.log(`size events -> ${events.length} || new -> ${newEvents.length}`)
+
+    
+    if (events.length === newEvents.length) 
+        newEvents.push({ "eventId": eventDTO.event_id, "title": eventDTO.title });
+    
+    console.log(`user events -> ${events}`)
+    console.log(`user new events -> ${newEvents}`)
+    return await User.updateOne({ "username": usernameDTO }, { $set: { "events": newEvents }} );
 }
 
 async function deleteUser(usernameDTO) {
@@ -87,6 +125,7 @@ module.exports = {
     deleteAllUsers,
     getUser,
     updateUser,
+    updateUserEvents,
     deleteUser,
     getUserFriends,
     getUserStatistics
