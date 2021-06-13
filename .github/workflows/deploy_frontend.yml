@@ -29,7 +29,7 @@ jobs:
         run: |
           npm install -g @quasar/cli
           npm ci
-          quasar build
+          quasar build -m pwa
       
       - name: Login to Heroku Container registry
         env: 
