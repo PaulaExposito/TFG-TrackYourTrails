@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Event = require('../models/Event');
 
 async function getAllUsers() {
     const users = await User.find();
@@ -69,6 +70,38 @@ async function updateUser(usernameDTO, userDataDTO) {
     // return await User.findOne({ "_id": user._id });    // ?????    
 }
 
+async function updateUserEvents(usernameDTO, eventDTO) {
+    const user = await User.findOne({ "username": usernameDTO });
+    let events = user.events;
+    let newEvents = [];
+
+    console.log(`user events -> ${events}`)
+    console.log(`user eventDTO -> ${eventDTO.toString()}`)
+    console.log(`user eventDTO data: -> ${eventDTO.event_id} y ${eventDTO.title}`)
+    const event = await Event.findOne({ "title": eventDTO.title });
+    if (!user || !event)
+        return -1;
+
+    let index = -1;
+    for (let i in events) {
+        console.log(`if ${events[i].eventId} != ${eventDTO.event_id}`)
+        if (events[i].eventId != eventDTO.event_id)
+            newEvents.push(events[i]);
+        else
+            console.log(`if en index ${i}`)
+    }
+
+    console.log(`size events -> ${events.length} || new -> ${newEvents.length}`)
+
+    
+    if (events.length === newEvents.length) 
+        newEvents.push({ "eventId": eventDTO.event_id, "title": eventDTO.title });
+    
+    console.log(`user events -> ${events}`)
+    console.log(`user new events -> ${newEvents}`)
+    return await User.updateOne({ "username": usernameDTO }, { $set: { "events": newEvents }} );
+}
+
 async function deleteUser(usernameDTO) {
     await User.remove({ "username": usernameDTO });
 }
@@ -92,6 +125,7 @@ module.exports = {
     deleteAllUsers,
     getUser,
     updateUser,
+    updateUserEvents,
     deleteUser,
     getUserFriends,
     getUserStatistics

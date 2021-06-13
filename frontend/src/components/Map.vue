@@ -10,6 +10,8 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
+// import { Utils, Device } from '@nativescript/core'
+
 export default {
   name: "Map",
 	data() {
@@ -19,27 +21,17 @@ export default {
 		}
 	},
 	mounted() {
-		// this.map = L.map('map').setView([28.3811263, -16.524774], 13);
-		// L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-		// 	attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-		// 	// maxZoom: 18,
-		// 	id: 'mapbox/streets-v11',
-		// 	tileSize: 512,
-		// 	zoomOffset: -1,
-		// 	accessToken: 'pk.eyJ1IjoicGF1bGFleHBvc2l0byIsImEiOiJja3BmdzVoMGQyNWw4Mm9sbG90M3ZheGF5In0.XQxfMHPHwBCKiwHUsTUovg'
-		// }).addTo(this.map);
-
-		// var polyline = new L.Polyline([
-		// 	[-45, 45],
-		// 	[45, -45]
-		// 	], {
-		// 	color: 'green',
-		// 	weight: 5,
-		// 	opacity: 0.5
-		// }).addTo(this.map);
-
-		// this.map.fitBounds(polyline.getBounds());
 		console.log("mounted")
+
+		// if (global.isAndroid && Device.sdkVersion >= '21') {
+		// 	console.log("android")
+
+		// 	const bm = Utils.android
+		// 		.getApplicationContext()
+		// 		.getSystemService(android.content.Context.BATTERY_SERVICE)
+		// 	const batLevel = bm.getIntProperty(android.os.BatteryManager.BATTERY_PROPERTY_CAPACITY)
+		// }
+
 
 		this.getGeolocation();
 	},

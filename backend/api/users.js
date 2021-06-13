@@ -68,6 +68,18 @@ router
         }
         await next();
     })
+    .put('/:user/event', authenticated, async (ctx, next) => {
+        const user = await userService.updateUserEvents(ctx.params.user, ctx.request.body);
+        if (user == -1) {
+            ctx.response.body = { msg: "Data is incomplete" };
+            ctx.response.status = 400;
+        }
+        else {
+            ctx.response.body = user;
+            ctx.response.status = 200;
+        }
+        await next();
+    })
     .delete('/:user', authenticated, async (ctx, next) => {
         await userService.deleteUser(ctx.params.user);
         ctx.response.body = { msg: `${ctx.params.user} was deleted` };

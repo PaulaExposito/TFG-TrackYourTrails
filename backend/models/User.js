@@ -9,11 +9,15 @@ const User = new mongoose.Schema({
     password: { required: true, type: String },
     phone: String,
     statistics: {
-        distance: Number,
-        gradient: Number,
-        time: Number,
-        numberOfRegisters: Number
+        distance: { type: Number, default: 0 },
+        gradient: { type: Number, default: 0 },
+        time: { type: Number, default: 0 },
+        numberOfRegisters: { type: Number, default: 0 }
     },
+    events: [{
+        eventId: mongoose.Types.ObjectId,
+        title: String
+    }],
     friends: Array,
     token: String,
 });

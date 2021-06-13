@@ -56,6 +56,19 @@ router
         }
         await next();
     })
+    .put('/:event/user', async (ctx, next) => {
+        const event = await eventService.modifyEventUser(ctx.params.event, ctx.request.body);
+        if (event == null) {
+            ctx.response.body = { msg: "Event Not Found" };
+            ctx.response.status = 400;
+        }
+        else {
+            ctx.response.body = event;
+            ctx.response.status = 200;
+        }
+
+        await next();
+    })
     .delete('/:event', async (ctx, next) => {
         await eventService.deleteEvent(ctx.params.event);
         ctx.response.body = { msg: `${ctx.params.event} was deleted` };

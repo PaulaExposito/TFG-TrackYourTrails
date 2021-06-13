@@ -14,11 +14,11 @@
 				</div>
 			</div>
 			<div class="statistics flex">
-				<div class="box">Distancia<div class="number">0 m</div></div>
+				<div class="box">Distancia<div class="number">{{ user.statistics.distance }} m</div></div>
 				<div class="line"></div>
-				<div class="box">Tiempo<div class="number">0 min</div></div>
+				<div class="box">Tiempo<div class="number">{{ user.statistics.time }} min</div></div>
 				<div class="line"></div>
-				<div class="box">Rutas<div class="number">0</div></div>
+				<div class="box">Rutas<div class="number">{{ user.statistics.numberOfRegisters }}</div></div>
 			</div>
 		</div>
 
@@ -59,7 +59,11 @@ export default {
 				lastName: null,
 				password: null,
 				phone: null,
-				statistics: null
+				statistics: {
+					distance: null,
+					time: null,
+					numberOfRegisters: null
+				}
 			},
 			config: null,
 			name: null
