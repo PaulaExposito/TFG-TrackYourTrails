@@ -35,7 +35,7 @@ router
      * 
      * 
      ********************************************************/
-    .delete('/', authenticated, async (ctx, next) => {
+    .delete('/', async (ctx, next) => {
         ctx.response.body = await userService.deleteAllUsers();
         ctx.response.status = 200;
         await next();
