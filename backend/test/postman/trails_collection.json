@@ -1,0 +1,768 @@
+{
+	"info": {
+		"_postman_id": "919b7074-ccef-4453-a7fb-4009a47dc680",
+		"name": "Trails Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create user trail tests",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"token\", data.token);\r",
+							"\r",
+							"pm.test(\"User created successfully with a 200 code\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Confirm response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.user.username).to.eql(\"trailtests\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that token is generated\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.token).not.to.be.eq(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"trailtests\",\r\n    \"password\": \"trailtests123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/signup",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create trail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"trailId\", data._id);\r",
+							"\r",
+							"pm.test(\"Trail created with 201 code\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User is included in request message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.user).to.eql(\"trailtests\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Id is included in request message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData._id).not.to.eql(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"trailtests\",\r\n    \"title\": \"Aguamansa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/trails",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create trail (incomplete data)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Trail couldn't be created with 409 code\", () => {\r",
+							"    pm.response.to.have.status(409);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Missing data in request message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.msg).to.eql(\"Data is incomplete\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Aguamansa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/trails",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a single trail (fails)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get trail with 404 code\", () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Not trail found in request message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.msg).to.eql(\"Trail not found\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/trails/60c7716af1686cf753063a38",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trails",
+						"60c7716af1686cf753063a38"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a single trail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get trail with 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User is included in request message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.user).to.eql(\"trailtests\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/trails/{{trailId}}",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trails",
+						"{{trailId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update trail data (fails)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update trail fails with 404 code\", () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message is included in response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.msg).to.eql(\"Trail not found\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Bajada de Mazca\",\r\n    \"distance\": \"1900\",\r\n    \"points\": [\r\n        {\r\n            \"latitude\": 12.232,\r\n            \"longitude\": -12.4324\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/trails/60c7716af1686cf753063a38",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trails",
+						"60c7716af1686cf753063a38"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update trail data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update trail with 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Distance is included in response\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.distance).to.eql(6234);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Points are not null in response\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.points).not.to.eql(\"null\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Bajada de Mazca\",\r\n    \"distance\": 6234,\r\n    \"points\": [\r\n        {\r\n            \"latitude\": 12.232,\r\n            \"longitude\": -12.4324\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/trails/{{trailId}}",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trails",
+						"{{trailId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user trails (fails)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get trail with 404 code\", () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User is included in request message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.msg).to.eql(\"User not found\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/trails/user/usuarioquenoexiste",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trails",
+						"user",
+						"usuarioquenoexiste"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user trails",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get trail with 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User is included in response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].points).not.to.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User is included in response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].title).to.eql(\"Bajada de Mazca\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/trails/user/trailtests",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trails",
+						"user",
+						"trailtests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user trail points (fails)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get trail with 404 code\", () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Trail not found in response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.msg).to.eql(\"Trail not found\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/trails/60c7716af1686cf753063a38/points",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trails",
+						"60c7716af1686cf753063a38",
+						"points"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user trail points",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get trail with 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is an array of points\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Title is not included in response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).not.to.include(\"title\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"At least one point is included in response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].latitude).not.to.eql(null);\r",
+							"    pm.expect(jsonData[0].longitude).not.to.eql(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/trails/{{trailId}}/points",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trails",
+						"{{trailId}}",
+						"points"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add point to trail (fails)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update trail fails with 404 code\", () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message is included in response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.msg).to.eql(\"Trail not found\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Bajada de Mazca\",\r\n    \"distance\": \"1900\",\r\n    \"points\": [\r\n        {\r\n            \"latitude\": 12.232,\r\n            \"longitude\": -12.4324\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/trails/60c7716af1686cf753063a38/point",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trails",
+						"60c7716af1686cf753063a38",
+						"point"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add point to trail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update trail with 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Points are not null in response\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.points).not.to.eql(null);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"There is at least one point\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.points[0].longitude).not.to.eql(null);\r",
+							"    pm.expect(jsonData.points[0].latitude).not.to.eql(null);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"latitude\": 18.452,\r\n    \"longitude\": -13.444\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/trails/{{trailId}}/point",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trails",
+						"{{trailId}}",
+						"point"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete single trail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Trail deleted with 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Confirm response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.msg).not.to.eql(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"pansy\",\r\n    \"title\": \"Aguamansa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/trails/{{trailId}}",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"trails",
+						"{{trailId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deleted user events tests",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User deleted successfully with a 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Confirm response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.msg).to.eql(\"trailtests was deleted\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/users/trailtests",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"trailtests"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

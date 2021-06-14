@@ -10,8 +10,8 @@ const router = new Router({
 router
     .get('/', async (ctx, next) => {
         // incluir la opción de /events?active="boolean" y /events?user=username 
-        const events = await eventService.getAllEvents();
-        ctx.response.body = { events: events, numberOfEvents: events.length };
+        const res = await eventService.getAllEvents();
+        ctx.response.body = { events: res, numberOfEvents: res.length };
         ctx.response.status = 200;
         await next();
     })
@@ -21,52 +21,52 @@ router
         await next();
     })
     .post('/', async (ctx, next) => {
-        const event = await eventService.createEvent(ctx.request.body);
-        if (event == null) { 
+        const res = await eventService.createEvent(ctx.request.body);
+        if (res == null) { 
             ctx.response.body = { msg: "Event already exist" }; 
-            ctx.response.status = 400;
+            ctx.response.status = 409;
         }
         else {
-            ctx.response.body = event;
-            ctx.response.status = 200;
+            ctx.response.body = res;
+            ctx.response.status = 201;
         }
         await next();
     })
     .get('/:event', async (ctx, next) => {
-        const event = await eventService.getEvent(ctx.params.event);
-        if (event == null) {
+        const res = await eventService.getEvent(ctx.params.event);
+        if (res == null) {
             ctx.response.body = { msg: "Event Not Found" };
-            ctx.response.status = 400;
+            ctx.response.status = 404;
         }
         else {
-            ctx.response.body = event;
+            ctx.response.body = res;
             ctx.response.status = 200;
         }
         await next();
     })
     .put('/:event', async (ctx, next) => {
-        const event = await eventService.updateEvent(ctx.params.event, ctx.request.body);
-        if (event == null) {
+        const res = await eventService.updateEvent(ctx.params.event, ctx.request.body);
+        if (res == null) {
             ctx.response.body = { msg: "Event Not Found" };
-            ctx.response.status = 400;
+            ctx.response.status = 404;
         }
         else {
-            ctx.response.body = event;
+            ctx.response.body = res;
             ctx.response.status = 200;
         }
         await next();
     })
+    // Actualizar los usuarios de un evento
     .put('/:event/user', async (ctx, next) => {
-        const event = await eventService.modifyEventUser(ctx.params.event, ctx.request.body);
-        if (event == null) {
+        const res = await eventService.modifyEventUser(ctx.params.event, ctx.request.body);
+        if (res == -1) {
             ctx.response.body = { msg: "Event Not Found" };
-            ctx.response.status = 400;
+            ctx.response.status = 404;
         }
         else {
-            ctx.response.body = event;
+            ctx.response.body = res;
             ctx.response.status = 200;
         }
-
         await next();
     })
     .delete('/:event', async (ctx, next) => {

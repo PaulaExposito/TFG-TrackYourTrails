@@ -1,0 +1,680 @@
+{
+	"info": {
+		"_postman_id": "453dbfca-146d-486b-85d9-afed386ec3c2",
+		"name": "Events Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Event1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"eventId\", data._id);\r",
+							"\r",
+							"pm.test(\"Event successfully created with 201 code\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Event response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.title).to.eql(\"event1\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"event1\",\r\n    \"active\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/events",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Event1 Again (fails)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Event couldn't be created with 409 code\", () => {\r",
+							"    pm.response.to.have.status(409);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Event already exist response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.msg).to.eql(\"Event already exist\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"event1\",\r\n    \"active\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/events",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Events",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get events successfully with a 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Confirm that there are at least two events\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.numberOfEvents).is.at.least(2);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/events",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Event1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get event with 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Event title\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.title).to.eql(\"event1\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/events/{{eventId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"events",
+						"{{eventId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Event2 (fails)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get event with 404 code\", () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Event not found in request message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.msg).to.eql(\"Event Not Found\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/events/60c7716af1686cf753063a38",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"events",
+						"60c7716af1686cf753063a38"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Event1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get event with 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Event updated response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.title).to.eql(\"Subida al Teide\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Subida al Teide\",\r\n    \"equipment\": \"chubasquero\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/events/{{eventId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"events",
+						"{{eventId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Event2 (fails)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get event with 404 code\", () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Event not found in request message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.msg).to.eql(\"Event Not Found\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Subida al Teide\",\r\n    \"equipment\": \"chubasquero\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/events/60c7716af1686cf753063a38",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"events",
+						"60c7716af1686cf753063a38"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Event1 updated",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get event with 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Event new title in response\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.title).not.to.eql(\"event1\");\r",
+							"    pm.expect(jsonData.equipment).to.eql(\"chubasquero\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/events/{{eventId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"events",
+						"{{eventId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user event tests",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"token\", data.token);\r",
+							"\r",
+							"pm.test(\"User created successfully with a 200 code\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Confirm response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.user.username).to.eql(\"eventtests\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that token is generated\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.token).not.to.be.eq(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"eventtests\",\r\n    \"password\": \"eventtests123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/signup",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update users of Event1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update users event with 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an array\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that user is in event users\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.include.members([\"eventtests\"]);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"eventtests\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/events/{{eventId}}/user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"events",
+						"{{eventId}}",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update users of Event1 quit user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update users event with 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an array\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that user is in event users\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).not.to.include.members([\"eventtests\"]);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"eventtests\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/events/{{eventId}}/user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"events",
+						"{{eventId}}",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update users of Event2 (fails)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Can not update event with 404 code\", () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Event updated response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.msg).to.eql(\"Event Not Found\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Subida al Teide\",\r\n    \"equipment\": \"chubasquero\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/events/60c7716af1686cf753063a38",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"events",
+						"60c7716af1686cf753063a38"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Event1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Event deleted with 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Confirm response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.msg).not.to.eql(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/events/{{eventId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"events",
+						"{{eventId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deleted user trail tests",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User deleted successfully with a 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an object\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Confirm response message\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.msg).to.eql(\"eventtests was deleted\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/users/eventtests",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"eventtests"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

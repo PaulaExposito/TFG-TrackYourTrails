@@ -6,22 +6,6 @@ async function getAllUsers() {
     return users;
 }
 
-
-/**
- * ESTA FUNCIÓN HAY QUE ELIMINARLA
- */
-async function createUser(userDTO) {
-    const userExists = await User.findOne({ "username": userDTO.username });
-    if (userExists != null) 
-        return null;
-    
-    const user = new User(userDTO);
-    await user.save();
-    return user;
-}
-/*
-**********************************************/
-
 async function deleteAllUsers() {
     await User.remove({});
     return "All users have been removed";
@@ -35,10 +19,9 @@ async function getUser(usernameDTO) {
 }
 
 async function updateUser(usernameDTO, userDataDTO) {
-
     const user = await User.findOne({ "username": usernameDTO });
     if (user == null) 
-        return -1;  // usuario no existe --> se supone que ya está autenticado
+        return -1;
 
     if (usernameDTO != userDataDTO.username) {
         const newUsernameExists = await User.findOne({ "username": userDataDTO.username });
@@ -48,15 +31,8 @@ async function updateUser(usernameDTO, userDataDTO) {
 
     // Si la contraseña es diferente a la actual (puede que se rellene un formulario y siempre
     // esté la contraseña como un campo a actualizar pero en realidad no se quiere actualizar)
-    if (usernameDTO.password !== null) {
-        const actualPass = user.password
-        
-        const newPass = await user.encryptPass(userDataDTO.password);
-        const verify = await user.validatePass(userDataDTO.password);
-        console.log(verify);
-
-        if (user.password === userDataDTO.password)
-            // userDataDTO.password = user.password
+    if (usernameDTO.password != null) {
+        if (user.password == userDataDTO.password)
             delete userDataDTO.password;
         else
             userDataDTO.password =  await user.encryptPass(userDataDTO.password);
@@ -64,10 +40,11 @@ async function updateUser(usernameDTO, userDataDTO) {
 
     await User.updateOne({ "username": usernameDTO }, {$set: userDataDTO});
 
-    return await User.findOne({ "username": userDataDTO.username });
-    // return await User.findOne({ "username": usernameDTO });    
-    // return await User.findOne({ "username": user.username });    // ?????    
-    // return await User.findOne({ "_id": user._id });    // ?????    
+    return await User.findOne({ "_id": user._id });
+}
+
+async function deleteUser(usernameDTO) {
+    await User.remove({ "username": usernameDTO });
 }
 
 async function updateUserEvents(usernameDTO, eventDTO) {
@@ -75,35 +52,19 @@ async function updateUserEvents(usernameDTO, eventDTO) {
     let events = user.events;
     let newEvents = [];
 
-    console.log(`user events -> ${events}`)
-    console.log(`user eventDTO -> ${eventDTO.toString()}`)
-    console.log(`user eventDTO data: -> ${eventDTO.event_id} y ${eventDTO.title}`)
     const event = await Event.findOne({ "title": eventDTO.title });
     if (!user || !event)
         return -1;
 
-    let index = -1;
     for (let i in events) {
-        console.log(`if ${events[i].eventId} != ${eventDTO.event_id}`)
         if (events[i].eventId != eventDTO.event_id)
             newEvents.push(events[i]);
-        else
-            console.log(`if en index ${i}`)
     }
-
-    console.log(`size events -> ${events.length} || new -> ${newEvents.length}`)
-
     
     if (events.length === newEvents.length) 
         newEvents.push({ "eventId": eventDTO.event_id, "title": eventDTO.title });
     
-    console.log(`user events -> ${events}`)
-    console.log(`user new events -> ${newEvents}`)
     return await User.updateOne({ "username": usernameDTO }, { $set: { "events": newEvents }} );
-}
-
-async function deleteUser(usernameDTO) {
-    await User.remove({ "username": usernameDTO });
 }
 
 async function getUserFriends(usernameDTO) {
@@ -121,12 +82,11 @@ async function getUserStatistics(usernameDTO) {
 
 module.exports = {
     getAllUsers, 
-    //createUser,
     deleteAllUsers,
     getUser,
     updateUser,
-    updateUserEvents,
     deleteUser,
+    updateUserEvents,
     getUserFriends,
     getUserStatistics
 };

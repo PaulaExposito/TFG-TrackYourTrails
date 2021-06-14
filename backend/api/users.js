@@ -10,72 +10,40 @@ const router = new Router({
 
 router
     .get('/', async (ctx, next) => {
-        const users = await userService.getAllUsers();
-        ctx.response.body = { users: users, numberOfUsers: users.length };
+        const res = await userService.getAllUsers();
+        ctx.response.body = { users: res, numberOfUsers: res.length };
         ctx.response.status = 200;
         await next();
     })
-    /**
-     * ESTE ENDPOINT HAY QUE ELIMINARLO
-     */
-    .post('/', async (ctx, next) => {
-        const user = await userService.createUser(ctx.request.body);
-        if (user == null) { 
-            ctx.response.body = { msg: "User already exist" }; 
-            ctx.response.status = 400;
-        }
-        else {
-            ctx.response.body = user;
-            ctx.response.status = 200;
-        }
-        await next();
-    })
-    /********************************************************
-     * 
-     * 
-     * 
-     ********************************************************/
     .delete('/', async (ctx, next) => {
         ctx.response.body = await userService.deleteAllUsers();
         ctx.response.status = 200;
         await next();
     })
     .get('/:user', authenticated, async (ctx, next) => {
-        const user = await userService.getUser(ctx.params.user);
-        if (user == null) {
+        const res = await userService.getUser(ctx.params.user);
+        if (res == null) {
             ctx.response.body = { msg: "User Not Found" };
-            ctx.response.status = 400;
+            ctx.response.status = 404;
         }
         else {
-            ctx.response.body = user;
+            ctx.response.body = res;
             ctx.response.status = 200;
         }
         await next();
     })
     .put('/:user', authenticated, async (ctx, next) => {
-        const user = await userService.updateUser(ctx.params.user, ctx.request.body);
-        if (user == -1) {
+        const res = await userService.updateUser(ctx.params.user, ctx.request.body);
+        if (res == -1) {
             ctx.response.body = { msg: "User Not Found" };
-            ctx.response.status = 400;
+            ctx.response.status = 404;
         }
-        else if (user == -2) {
+        else if (res == -2) {
             ctx.response.body = { msg: "This username is already in use" };
-            ctx.response.status = 400;
+            ctx.response.status = 409;
         }
         else {
-            ctx.response.body = user;
-            ctx.response.status = 200;
-        }
-        await next();
-    })
-    .put('/:user/event', authenticated, async (ctx, next) => {
-        const user = await userService.updateUserEvents(ctx.params.user, ctx.request.body);
-        if (user == -1) {
-            ctx.response.body = { msg: "Data is incomplete" };
-            ctx.response.status = 400;
-        }
-        else {
-            ctx.response.body = user;
+            ctx.response.body = res;
             ctx.response.status = 200;
         }
         await next();
@@ -86,26 +54,38 @@ router
         ctx.response.status = 200;
         await next();
     })
-    .get('/:user/friends', authenticated, async (ctx, next) => {
-        const user = await userService.getUserFriends(ctx.params.user);
-        if (user == null) {
-            ctx.response.body = { msg: "User Not Found" };
+    .put('/:user/event', authenticated, async (ctx, next) => {
+        const res = await userService.updateUserEvents(ctx.params.user, ctx.request.body);
+        if (res == -1) {
+            ctx.response.body = { msg: "Data is incomplete" };
             ctx.response.status = 400;
         }
         else {
-            ctx.response.body = user;
+            ctx.response.body = res;
+            ctx.response.status = 200;
+        }
+        await next();
+    })
+    .get('/:user/friends', authenticated, async (ctx, next) => {
+        const res = await userService.getUserFriends(ctx.params.user);
+        if (res == null) {
+            ctx.response.body = { msg: "User Not Found" };
+            ctx.response.status = 404;
+        }
+        else {
+            ctx.response.body = res;
             ctx.response.status = 200;
         }
         await next();
     })
     .get('/:user/statistics', authenticated, async (ctx, next) => {
-        const user = await userService.getUserStatistics(ctx.params.user);
-        if (user == null) {
+        const res = await userService.getUserStatistics(ctx.params.user);
+        if (res == null) {
             ctx.response.body = { msg: "User Not Found" };
-            ctx.response.status = 400;
+            ctx.response.status = 404;
         }
         else {
-            ctx.response.body = user;
+            ctx.response.body = res;
             ctx.response.status = 200;
         }
         await next();

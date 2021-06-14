@@ -58,10 +58,6 @@ async function logout(userDTO) {
     if (userDTO.username == null)
         return -1;
 
-    // const user = await User.findOne({ 
-    //     "username": userDTO.username
-    // });
-
     return { userDTO, token: null };
 }
 
