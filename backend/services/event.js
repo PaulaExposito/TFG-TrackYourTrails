@@ -44,15 +44,10 @@ async function modifyEventUser(eventIdDTO, eventDataDTO) {
     if (user == null)
         return -2;
 
-    let index = -1;
-    for (i in event.users)
-        if (event.users[i] == eventDataDTO.username)
-            index = i;
-
     if (!event.users.includes(eventDataDTO.username))
         event.users.push(eventDataDTO.username);
     else {
-        event.users = event.users.filter(function(value, _, _) {
+        event.users = event.users.filter((value) => {
             return (value != eventDataDTO.username);
         });
     }

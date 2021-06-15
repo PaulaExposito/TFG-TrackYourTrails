@@ -1,5 +1,5 @@
 const auth = require('../../services/auth');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 
 const rightTestDTO = {
     username: "tester",
@@ -8,11 +8,11 @@ const rightTestDTO = {
 
 const wrongTestDTO_user = {
     username: "tester"
-}
+};
 
 const wrongTestDTO_pass = {
     password: "tester123"
-}
+};
 
 test('Check if user DTO is not complete', async () => {
     const result = await auth.signup(wrongTestDTO_user);

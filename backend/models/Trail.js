@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const User = require('./User.js');
 
 const Trail = new mongoose.Schema({
     user: { required: true, type: String },
