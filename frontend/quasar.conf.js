@@ -118,11 +118,13 @@ module.exports = function (/* ctx */) {
     ssr: {
       pwa: false
     },
-
+    
     // https://v1.quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
-      workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
-      workboxOptions: {}, // only for GenerateSW
+      workboxPluginMode: 'InjectManifest', // 'GenerateSW' or 'InjectManifest'
+      workboxOptions: {
+        swSrc: '/app/src-pwa/custom-service-worker.js'
+      }, // only for GenerateSW
       manifest: {
         name: `Track Your Trails`,
         short_name: `Track Your Trails`,

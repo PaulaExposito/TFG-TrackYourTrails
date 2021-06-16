@@ -8,12 +8,8 @@
       </q-tabs>
     </q-header>
 
-    <template v-if="tab === 'signup'">
-      <SignUp/>
-    </template>
-    <template v-else>
-      <LogIn/>
-    </template>
+    <template v-if="tab === 'signup'"><SignUp/></template>
+    <template v-else><LogIn/></template>
   </q-page>
 </template>
 

@@ -44,7 +44,7 @@
 				<q-toggle v-model="accept" label="Acepto las condiciones y términos de uso" />
 
 				<div>
-					<q-btn label="Submit" type="submit" color="secondary"/>
+					<q-btn label="SignUp" type="submit" color="secondary"/>
 					<q-btn label="Reset" type="reset" color="secondary" flat class="q-ml-sm" />
 				</div>
 			</q-form>
@@ -54,8 +54,8 @@
 
 <script>
 
-import { api } from '../boot/axios'
-import { notifyWarning, notifyCreated } from '../boot/utils'
+import { api } from '../boot/axios';
+import { notifyWarning, notifyCreated } from '../boot/utils';
 
 export default {
   name: 'SignIn',
@@ -71,18 +71,18 @@ export default {
 	  onSubmit () {
       if (this.password === this.repeatPassword) {
         if (this.accept !== true) 
-					notifyWarning(this, 'Debes aceptar las condiciones y términos de uso')
+					notifyWarning(this, 'Debes aceptar las condiciones y términos de uso');
         else 
-          this.createUser()
+          this.createUser();
       }
       else
-          notifyWarning(this, 'Las contraseñas no coinciden')
+          notifyWarning(this, 'Las contraseñas no coinciden');
     },
     onReset () {
-      this.name = null
-      this.password = null
-      this.repeatPassword = null
-      this.accept = false
+      this.name = null;
+      this.password = null;
+      this.repeatPassword = null;
+      this.accept = false;
     },
     createUser() {
 			api.post('/signup', {
@@ -91,22 +91,22 @@ export default {
 			})
 				.then(res => {
 					if (res.status == 201)
-						return res.data
+						return res.data;
 				})
 				.then(data => {
 					this.$store.dispatch('signInAction', {
 						token: data.token,
 						username: this.username
-					})
+					});
 
-					notifyCreated(this, 'Usuario creado')
-					this.$router.push('/')
+					notifyCreated(this, 'Usuario creado');
+					this.$router.push('/');
 				})
 				.catch(err => {
 					if (err.response.status == 409)
-						notifyWarning(this, 'Este usuario ya existe')
+						notifyWarning(this, 'Este usuario ya existe');
 					else 
-						notifyWarning(this, 'Error en el servidor')
+						notifyWarning(this, 'Error en el servidor');
 				})
 		}
 	}
@@ -116,9 +116,5 @@ export default {
 <style lang="scss" scoped>
 .form {
   background-color: rgba(233, 233, 233, 0.95);
-}
-
-h3 {
-  filter: drop-shadow(0 0 7px white);
 }
 </style>

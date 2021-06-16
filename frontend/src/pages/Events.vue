@@ -3,10 +3,6 @@
 		<div class="content">
 			<div class="header">
 				<h3> Eventos </h3>
-				<!-- <q-btn color="teal">
-					<q-icon size="2em" name="add"></q-icon>
-					<div class="new-event">Nuevo evento</div>
-				</q-btn> -->
 				<template v-if="$store.getters.token !== null">
 					<CreateEvent @new-event="updateEvents"></CreateEvent>
 				</template>
@@ -15,10 +11,8 @@
 
 			<template v-if="$store.getters.token !== null">
 				<h4>Mis eventos</h4>
-				<!-- <hr/> -->
 				<div class="cards"><EventCard @new-event="updateEvents" v-for="(i,j) in myEvents" :key="j" :id="i"></EventCard></div>
 				<h4>Todos los eventos</h4>
-				<!-- <hr/> -->
 			</template>
 			<div class="cards"><EventCard @new-event="updateEvents" v-model="allEvents" v-for="(k,l) in allEvents" :key="l" :id="k"></EventCard></div>
 		</div>
@@ -27,7 +21,7 @@
 
 <script>
 import { api } from '../boot/axios';
-import { notifyWarning, notifyCreated } from '../boot/utils';
+import { notifyWarning } from '../boot/utils';
 
 import EventCard from '../components/EventCard.vue';
 import CreateEvent from '../components/CreateEvent.vue';
@@ -45,8 +39,6 @@ export default {
 		}
 	},
 	mounted() {
-		console.log("mounted");
-
 		if (this.$store.getters.token !== null)
 			this.getUserEvents();
 		this.getEvents();
@@ -60,15 +52,13 @@ export default {
 					}
 				})
 				.then(data => {
-					console.log(`myEvents: ${data.events}`)
 					this.myEvents = [];
 					for (let [key, value] of Object.entries(data.events)) {
-						console.log(`for: ${value.title} y ${value.eventId}`)
 						this.myEvents.push([value.title, value.eventId]);
 					}
 				})
 				.catch(err => {
-					if (err.respose.status === 400) 
+					if (err.respose.status === 404) 
 						notifyWarning(this, "Data is incomplete");
 					else 
 						notifyWarning(this, "Error desconocido");
@@ -88,14 +78,10 @@ export default {
 					}
 				})
 				.catch(err => {
-					if (err.respose.status === 400) 
-						notifyWarning(this, "Data is incomplete");
-					else 
-						notifyWarning(this, "Error desconocido");
+						notifyWarning(this, `Error desconocido ${err}`);
 				})
 		},
 		updateEvents() {
-			console.log("updated");
 			this.getEvents();
 			this.getUserEvents();		// No hace falta if porque si se actualiza es porque el usuario está logueado
 		}

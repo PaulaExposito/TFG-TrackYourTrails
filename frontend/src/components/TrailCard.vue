@@ -1,8 +1,8 @@
 <template>
-<div class="card" @click="openCard(name)">
+<div class="card" @click="openCard">
   <div class="data">
-    <div class="title"> {{ name }} </div>
-    <div class="desc">La Orotava | 8km | 5:30 h</div>
+    <div class="title"> {{ title }} </div>
+    <div class="desc"> {{ distance }} km | {{ time }} h</div>
   </div>
 </div>
 </template>
@@ -11,20 +11,27 @@
 export default {
 	name: "TrailCard",
 	props: {
-		name: {
-			type: String,
-			default: 'normal',
-			required: true,
-			validator: v => { return true; }
-		}
+		trail: Array
+  },
+  data() {
+    return {
+      id: null,
+      title: null,
+      time: null,
+      distance: null
+    }
+  },
+  mounted() {
+    this.id = this.trail[0];
+    this.title = this.trail[1].title;
+    this.time = this.trail[1].time;
+    this.distance = this.trail[1].distance;
   },
   methods: {
-		openCard (id) {
-			console.log("card --> click en " + id);
-
+		openCard() {
 			// Guardar en el store la ruta pulsada
 			this.$store.dispatch("setTrailAction", {
-        id: id
+        id: this.id
       });
 			this.$router.push("/trail");
 		}
@@ -43,10 +50,8 @@ export default {
   background-repeat: no-repeat;
   background-position: center;
   box-shadow: 1px 1px 12px 1px rgba(0,0,0,0.8);
-  // border: 3px solid $primary-rgba;
   border-radius: 8px;
 	overflow: hidden;
-
   
   display: flex;
   align-items: flex-end;
@@ -56,7 +61,6 @@ export default {
   height: 30%;
   width: 100%;
 	background-color: $lightgray-rgba;
-  
   color: black;
   
   display: flex;
