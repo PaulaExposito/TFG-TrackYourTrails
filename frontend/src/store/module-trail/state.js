@@ -1,5 +1,7 @@
-export default function () {
+export default function() {
   return {
-    id: null
+    id: null,
+    tracking: false,
+    points: []
   }
 }

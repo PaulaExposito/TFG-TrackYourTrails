@@ -30,6 +30,7 @@ export default {
   display: flexbox;
   flex-direction: column;
   align-items: center;
+  padding-top: 70px;
 }
 
 // .map-container {

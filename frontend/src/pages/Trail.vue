@@ -59,6 +59,9 @@ export default {
 						notifyWarning(this, `Error desconocido: ${err}`);
 				})
 		}
+	},
+	beforeDestroyed() {
+		this.$store.dispatch('setTrailAction', { "id": null });
 	}
 }
 </script>

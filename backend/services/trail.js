@@ -1,5 +1,6 @@
 const Trail = require('../models/Trail');
 const User = require('../models/User');
+const distance = require('./utils');
 
 async function getAllTrails() {
   return await Trail.find();
@@ -64,9 +65,16 @@ async function addPointToTrail(idDTO, trailDTO) {
   if (trail == null)
     return -1;
 
+  let points = trail.points;
+  let dist = trail.distance;
+  
+  if (points.length) {
+    dist = distance(points[points.length - 1].latitude, points[points.length - 1].longitude, trailDTO.latitude, trailDTO.longitude, "K");
+  }
+
   trail.points.push(trailDTO);
-  await Trail.updateOne({ "_id": idDTO }, { $set: { "points": trail.points }});
-  return trail;
+  await Trail.updateOne({ "_id": idDTO }, { $set: { "points": trail.points, "distance": dist, "time": trailDTO.time }});
+  return await Trail.findOne({ "_id": idDTO });
 }
 
 
