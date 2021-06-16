@@ -27,8 +27,7 @@
         "serve": "nodemon --experimental-modules app.mjs",
         "test": "jest",
         "test:coverage": "jest --coverage",
-        "test:api": "newman run test/postman/auth.collection.json -e test/postman/auth.environment.json && newman run test/postman/events.postman_collection.json",
-        "test:api:entero:no:funciona": "newman run test/postman/auth.collection.json -e test/postman/auth.environment.json && newman run test/postman/users.postman_collection.json && newman run test/postman/events.postman_collection.json",
+        "test:api": "newman run test/postman/auth_collection.json -e test/postman/environment.json && newman run test/postman/events_collection.json -e test/postman/environment.json && newman run test/postman/trails_collection.json -e test/postman/environment.json && newman run test/postman/users_collection.json -e test/postman/environment.json",
         "linter": "eslint .",
         "linter:fix": "eslint . --fix",
         "start": "node --experimental-modules app.mjs"

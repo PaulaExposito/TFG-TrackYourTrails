@@ -34,6 +34,18 @@ export default {
       console.log(navigator.serviceWorker.controller);
       navigator.serviceWorker.offline;
 
+      if (navigator.serviceWorker) {
+        navigator.serviceWorker.register('service-worker.js');
+
+        navigator.serviceWorker.addEventListener('message', event => {
+          console.log(`service worker send me a message = ${event.data}  | control box scope`);
+        });
+
+        navigator.serviceWorker.ready.then( registration => {
+          registration.active.postMessage("Hi service worker (control box scope)");
+        });
+      }
+
     }
   }
 }

@@ -1,8 +1,6 @@
 <template>
 	<div class="q-pa-md q-gutter-sm container">
     <q-btn icon="add" label="Crear evento" color="primary" @click="onPopup">
-			<!-- <q-icon size="2em" name="add"></q-icon> -->
-			<!-- <div class="new-event">Crear evento</div> -->
 		</q-btn>
 
     <q-dialog v-model="popup">
@@ -50,8 +48,6 @@ export default {
 	},
 	methods: {
 		async onSubmit() {
-			console.log("creando evento");
-
 			await api.post('events', {
 				"title": this.title,
 				"date": this.date,
@@ -63,7 +59,7 @@ export default {
 				'Authorization': 'Bearer ' + this.$store.getters.token
 			})
 			.then(res => {
-				if (res.status === 200)
+				if (res.status === 201)
 					return res.data;
 			})
 			.then(data => {
@@ -72,7 +68,7 @@ export default {
 				notifyCreated(this, "Event created");
 			})
 			.catch(err => {
-				if (err.respose.status === 400) 
+				if (err.respose.status === 409) 
 					notifyWarning(this, "Event already exists");
 				else 
 					notifyWarning(this, "Error desconocido");
@@ -86,8 +82,7 @@ export default {
 						return res.data;
 					}
 				})
-				.then(data => {
-					console.log("evento añadido a un usuario");
+				.then(_ => {
 					this.$emit("new-event");
 				})
 				.catch(err => {
@@ -108,10 +103,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// .container {
-//   // background-color: green;
-// }
-
 .new-event {
   display: none;
   margin-left: 10px;
@@ -120,7 +111,6 @@ export default {
 
 .card {
 	width: 100%;
-	// height: 800px;
 }
 
 .form {

@@ -1,5 +1,5 @@
 <template>
-  <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
+  <div class="fullscreen text-white text-center q-pa-md flex flex-center bg-color">
     <div>
       <div style="font-size: 30vh">
         404
@@ -15,7 +15,7 @@
         text-color="blue"
         unelevated
         to="/"
-        label="Go Home"
+        label="Ir a inicio"
         no-caps
       />
     </div>
@@ -29,4 +29,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.bg-color {
+  background-color: $primary;
+}
 </style>

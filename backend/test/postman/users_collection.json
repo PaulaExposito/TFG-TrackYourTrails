@@ -6,14 +6,14 @@
 	},
 	"item": [
 		{
-			"name": "Post User Ianthe",
+			"name": "Post User Demeter",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"User created successfully with a 200 code\", () => {\r",
-							"    pm.response.to.have.status(200);\r",
+							"pm.test(\"User created successfully with a 201 code\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Check that it returns an object\", () => {\r",
@@ -23,7 +23,7 @@
 							"\r",
 							"pm.test(\"Confirm response message\", () => {\r",
 							"    let jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.username).to.eql(\"demeter\");\r",
+							"    pm.expect(jsonData.user.username).to.eql(\"demeter\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -35,7 +35,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"demeter\",\r\n    \"firstName\": \"Ianthe\",\r\n    \"password\": \"demeter123\"\r\n}",
+					"raw": "{\r\n    \"username\": \"demeter\",\r\n    \"password\": \"demeter123\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -43,33 +43,32 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/users",
+					"raw": "{{url}}/api/signup",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
 						"api",
-						"users"
+						"signup"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Post User Asha",
+			"name": "Post User Hades",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"User created successfully with a 200 code\", () => {\r",
-							"    pm.response.to.have.status(200);\r",
+							"pm.test(\"User created successfully with a 201 code\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Confirm response message\", () => {\r",
 							"    let jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.username).to.eql(\"hades\");\r",
+							"    pm.expect(jsonData.user.username).to.eql(\"hades\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -92,14 +91,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/users",
+					"raw": "{{url}}/api/signup",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
 						"api",
-						"users"
+						"signup"
 					]
 				}
 			},
@@ -134,11 +132,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/users",
+					"raw": "{{url}}/api/users",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"users"
@@ -148,7 +145,7 @@
 			"response": []
 		},
 		{
-			"name": "Get User Ianthe",
+			"name": "Get User Demeter",
 			"event": [
 				{
 					"listen": "test",
@@ -158,9 +155,9 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Check that first name is Ianthe\", () => {\r",
+							"pm.test(\"Check that user has password\", () => {\r",
 							"    let jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.firstName).is.eq(\"Ianthe\");\r",
+							"    pm.expect(jsonData.password).is.not.eq(null);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -183,11 +180,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/users/demeter",
+					"raw": "{{url}}/api/users/demeter",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"users",
@@ -198,14 +194,14 @@
 			"response": []
 		},
 		{
-			"name": "Get User Aden",
+			"name": "Get User Ares (fails)",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"User not found with a 400 code\", () => {\r",
-							"    pm.response.to.have.status(400);\r",
+							"pm.test(\"User not found with a 404 code\", () => {\r",
+							"    pm.response.to.have.status(404);\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Check that it returns a string\", () => {\r",
@@ -238,11 +234,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/users/hefesto",
+					"raw": "{{url}}/api/users/hefesto",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"users",
@@ -253,7 +248,7 @@
 			"response": []
 		},
 		{
-			"name": "Put Ianthe Phone Number",
+			"name": "Change Demeter phone number",
 			"event": [
 				{
 					"listen": "test",
@@ -285,11 +280,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/users/demeter",
+					"raw": "{{url}}/api/users/demeter",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"users",
@@ -300,19 +294,19 @@
 			"response": []
 		},
 		{
-			"name": "Post User Ianthe Again",
+			"name": "Change Demeter username",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"User not created with 400 code\", () => {\r",
-							"    pm.response.to.have.status(400);\r",
+							"pm.test(\"User updated successfully with a 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Confirm response message\", () => {\r",
+							"pm.test(\"Check updated phone number\", () => {\r",
 							"    let jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.msg).to.eql(\"User already exist\");\r",
+							"    pm.expect(jsonData.username).is.eq(\"ianthe\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -320,11 +314,11 @@
 				}
 			],
 			"request": {
-				"method": "POST",
+				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"demeter\",\r\n    \"firstName\": \"Ianthe\",\r\n    \"password\": \"demeter123\"\r\n}",
+					"raw": "{\r\n    \"username\": \"ianthe\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -332,14 +326,214 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/users",
+					"raw": "{{url}}/api/users/demeter",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
 						"api",
-						"users"
+						"users",
+						"demeter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Demeter (fails because now is Ianthe)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User not found with a 404 code\", () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that user has password\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.msg).is.eq(\"User Not Found\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/users/demeter",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"demeter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user Ianthe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User created successfully with a 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that username has changed\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.username).is.eq(\"ianthe\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/users/ianthe",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"ianthe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user Ianthe friends",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User created successfully with a 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an array\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"array\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/users/ianthe/friends",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"ianthe",
+						"friends"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user Ianthe statistics",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User created successfully with a 200 code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that it returns an array\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an(\"array\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/users/ianthe/statistics",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"ianthe",
+						"statistics"
 					]
 				}
 			},
@@ -363,7 +557,7 @@
 							"\r",
 							"pm.test(\"Confirm response message\", () => {\r",
 							"    let jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.msg).to.eql(\"demeter was deleted\");\r",
+							"    pm.expect(jsonData.msg).to.eql(\"ianthe was deleted\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -374,15 +568,14 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/users/demeter",
+					"raw": "{{url}}/api/users/ianthe",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"users",
-						"demeter"
+						"ianthe"
 					]
 				}
 			},
@@ -417,11 +610,10 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/users/hades",
+					"raw": "{{url}}/api/users/hades",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"users",

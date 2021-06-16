@@ -3,7 +3,6 @@
     <br><h3 id="title">Login</h3>
 
     <div align="center" class="q-pa-md form" style="width: 400px">
-
       <q-form
         @submit="onSubmit"
         @reset="onReset"
@@ -32,7 +31,7 @@
         />
 
         <div>
-          <q-btn id="submit" label="Submit" type="submit" color="secondary"/>
+          <q-btn id="submit" label="Login" type="submit" color="secondary"/>
           <q-btn id="reset" label="Reset" type="reset" color="secondary" flat class="q-ml-sm" />
         </div>
       </q-form>
@@ -42,8 +41,8 @@
 
 <script>
 
-import { api } from '../boot/axios'
-import { notifyWarning, notifyCreated } from '../boot/utils'
+import { api } from '../boot/axios';
+import { notifyWarning, notifyCreated } from '../boot/utils';
 
 export default {
   name: 'LogIn',
@@ -65,7 +64,7 @@ export default {
 			})
       .then(res => {
         if (res.status == 200)
-          return res.data
+          return res.data;
       })
 			.then(data => {
 				this.$store.dispatch('signInAction', {
@@ -76,7 +75,6 @@ export default {
 				this.$router.push('/');
 			})
 			.catch(err => {
-				console.log(err)
         this.onReset()
 				if (err.response.status == 409) 
 					notifyWarning(this, 'Falta el usuario y la contraseña');
@@ -85,7 +83,7 @@ export default {
 				else if (err.response.status == 401)
 					notifyWarning(this, 'Contraseña incorrecta');
 				else 
-					notifyWarning(this, 'Error en el servidor');
+					notifyWarning(this, `Error en el servidor: ${err}`);
 			})
 		}
   }
@@ -95,9 +93,5 @@ export default {
 <style lang="scss" scoped>
 .form {
   background-color: rgba(233, 233, 233, 0.95);
-}
-
-h3 {
-  filter: drop-shadow(0 0 7px white);
 }
 </style>

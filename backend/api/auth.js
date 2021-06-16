@@ -7,13 +7,6 @@ let router = new Router({
     prefix: '/api'
 });
 
-
-/**
- * A lo mejor todos deberían ser POST
- * 
- * TODO: Falta el middleware para comprobar el token
- */
-
 router
     .post('/signup', async (ctx, next) => {
         const res = await authService.signup(ctx.request.body);

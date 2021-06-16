@@ -1,0 +1,29 @@
+{
+	"id": "a5b36011-4052-4547-a85c-132570ee401b",
+	"name": "environment",
+	"values": [
+		{
+			"key": "url",
+			"value": "localhost:3000",
+			"enabled": true
+		},
+		{
+			"key": "token",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "eventId",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "trailId",
+			"value": "",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2021-06-14T22:32:22.557Z",
+	"_postman_exported_using": "Postman/8.6.2"
+}

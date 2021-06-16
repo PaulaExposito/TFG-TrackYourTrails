@@ -38,7 +38,7 @@
 
 <script>
 import { api } from '../boot/axios';
-import { notifyWarning, notifyCreated } from '../boot/utils';
+import { notifyWarning } from '../boot/utils';
 			
 export default {
 	name: "EventCard",
@@ -59,7 +59,6 @@ export default {
 	},
 	methods: {
 		openCard() {
-			console.log("card --> click en " + this.id[0] + "con id " + this.id[1]);
 			this.popup = true;
 			this.getEventData();
 		},
@@ -72,20 +71,14 @@ export default {
 				})
 				.then(data => {
 					this.event = data;
-
 					if (data.users.includes(this.$store.getters.username))
 						this.isMyUserSubscribed = true;
 				})
 				.catch(err => {
-					if (err.respose.status === 400) 
-						notifyWarning(this, "Data is incomplete");
-					else 
-						notifyWarning(this, "Error desconocido");					
+					notifyWarning(this, `Error desconocido ${err}`);					
 				})
 		},
 		onSubmit() {
-			console.log("submit");
-
 			api.put(`events/${this.id[1]}/user`, 
 				{ "username": this.$store.getters.username }, 
 				{ 'Authorization': 'Bearer ' + this.$store.getters.token })
@@ -94,12 +87,11 @@ export default {
 						return res.data;
 					}
 				})
-				.then(data => {
-					console.log(data)
-					console.log(data.users)
-				})
 				.catch(err => {
-					console.log(err)
+					if (err.respose.status === 404)
+						notifyWarning(this, `Evento no encontrado`);	
+					else
+						notifyWarning(this, `Error desconocido ${err}`);	
 				});
 
 			api.put(`users/${this.$store.getters.username}/event`,
@@ -110,16 +102,15 @@ export default {
 						return res.data;
 					}
 				})
-				.then(data => {
-					console.log("evento añadido a un usuario");
+				.then(_ => {
 					this.isMyUserSubscribed = !this.isMyUserSubscribed;
 					this.$emit("new-event");
 				})
 				.catch(err => {
 					if (err.respose.status === 400) 
-						notifyWarning(this, "Data is incomplete");
+						notifyWarning(this, "Faltan datos por rellenar");
 					else 
-						notifyWarning(this, "Error desconocido");
+						notifyWarning(this, `Error desconocido ${err}`);
 				})
 		},
 		formatUsersString(str) {
@@ -139,10 +130,6 @@ export default {
   overflow: hidden;
 	margin-right: 20px;
 	margin-bottom: 30px;
-
-	// background-color: #dac8ec;
-	// background-color: #d1e7ed;
-	// background-color: #db7444;
 	background-color: #ffffff;
 }
 
@@ -151,7 +138,6 @@ img {
   height: auto;
   background-repeat: no-repeat;
   background-size: contain;
-	// filter: drop-shadow(0 0 2px white);
 }
 
 q-dialogue {
@@ -165,7 +151,6 @@ q-dialogue {
 
 .card {
 	width: 500px;
-	// height: 400px;
 }
 
 .date {

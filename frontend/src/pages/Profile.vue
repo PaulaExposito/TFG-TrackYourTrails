@@ -18,7 +18,7 @@
 				<div class="line"></div>
 				<div class="box">Tiempo<div class="number">{{ user.statistics.time }} min</div></div>
 				<div class="line"></div>
-				<div class="box">Rutas<div class="number">{{ user.statistics.numberOfRegisters }}</div></div>
+				<div class=box>Rutas<div class="number" @click="goToMyTrails">{{ user.statistics.numberOfRegisters }}</div></div>
 			</div>
 		</div>
 
@@ -47,6 +47,7 @@
 
 <script>
 import { api } from '../boot/axios';
+import { notifyWarning, notifyCreated } from '../boot/utils';
 
 export default {
 	name: "Profile",
@@ -70,16 +71,11 @@ export default {
 		}
 	},
 	mounted() {
-		console.log("mounted")
-		this.config = {
-			'Authorization': 'Bearer ' + this.$store.getters.token
-		}
+		this.config = { 'Authorization': 'Bearer ' + this.$store.getters.token }
 		this.getData();
 	},
 	methods: {
 		getData() {
-			console.log("get")
-
 			api.get(`users/${this.$store.getters.username}`, null, this.config)
 				.then(res => {
 					if (res.status == 200)
@@ -87,26 +83,19 @@ export default {
 				})
 				.then(data => {
 					this.user = data;
-
 					if (data.firstName !== undefined) 
 						this.name = data.firstName + ' ';
-
 					if (data.lastName !== undefined)
 						this.name += data.lastName;
-
-					console.log(data)
-					console.log('nombre ' + this.name)
 				})
 				.catch(err => {
-					if (err.response.status == 400)
-						console.log("Usuario no encontrado");
+					if (err.response.status == 404)
+						notifyWarning(this, "Usuario no encontrado");
 					else
-						console.log("Error desconocido");
+						notifyWarning(this, "Error desconocido");
 				})
 		},
 		onModify() {
-			console.log("Modify user " + this.$store.getters.username);
-
 			api.put(`users/${this.$store.getters.username}`, this.user, this.config)
 				.then(res => {
 					if (res.status == 200)
@@ -114,30 +103,27 @@ export default {
 				})
 				.then(data => {
 					this.user = data;
-
-					console.log(data)
 					if (data.firstName !== undefined) 
 						this.name = data.firstName + ' ';
-
 					if (data.lastName !== undefined)
 						this.name += data.lastName;
 
 					if (this.$store.getters.username !== data.username)
 						this.$store.dispatch('setUsernameAction', data.username);
+
+					notifyCreated(this, "Usuario modificado");
 				})
 				.catch(err => {
-					if (err.response.status == 400)
-						console.log("Nombre de usuario no disponible");
+					if (err.response.status == 409)
+						notifyWarning(this, "Nombre de usuario no disponible");
 					else
-						console.log("Error desconocido");
+						notifyWarning(this, `Error desconocido ${err}`);
 				})
 		},
 		onReset() {
-			console.log("reset");
 			this.getData();
 		},
 		logout() {
-			console.log("cerrar sesion");
 			api.put('logout', { "username": this.$store.getters.username }) 
 				.then(res => {
 					if (res.status == 200) {
@@ -146,14 +132,13 @@ export default {
 					}
 				})
 				.catch(err => {
-					if (err.response.status == 400)
-						console.log("No hay ningún usuario logueado");
+					if (err.response.status == 404)
+						notifyWarning(this, "No hay ningún usuario logueado");
 					else
-						console.log("Error desconocido");
+						notifyWarning(this, `Error desconocido ${err}`);
 				})
 		},
 		deleteAccount() {
-			console.log("eliminar cuenta");
 			api.delete(`users/${this.$store.getters.username}`, null, this.config) 
 				.then(res => {
 					if (res.status == 200) {
@@ -162,11 +147,11 @@ export default {
 					}
 				})
 				.catch(err => {
-					if (err.response.status == 400)
-						console.log("No hay ningún usuario logueado");
-					else
-						console.log("Error desconocido");
+					notifyWarning(this, `Error desconocido ${err}`);
 				})
+		},
+		goToMyTrails() {
+			this.$router.push('/mytrails');
 		}
 	}
 }

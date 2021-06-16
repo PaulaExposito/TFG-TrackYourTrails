@@ -30,6 +30,6 @@ User.methods.encryptPass = async (password) => {
 
 User.methods.validatePass = function (password) {
     return bcrypt.compare(password, this.password);
-}
+};
 
 module.exports = mongoose.model('User', User);

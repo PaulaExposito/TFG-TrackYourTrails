@@ -5,7 +5,24 @@
 </template>
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  mounted() {
+    console.log("app scope");
+    if (navigator.serviceWorker) {
+      // navigator.serviceWorker.addEventListener('message', event => {
+      //   console.log('service worker sent me a message ' + event.data)
+      // });
+
+      // navigator.serviceWorker.ready.then( registration => {
+      //   console.log('app scope -> service worker ready listener')
+
+      //   registration.active.postMessage("Hi service worker (app scope)");
+      // });
+    }
+  },
+  beforeDestroyed() {
+
+  }
 }
 </script>
 
