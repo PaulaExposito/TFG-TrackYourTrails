@@ -12,24 +12,12 @@ register(process.env.SERVICE_WORKER_FILE, {
   // registrationOptions: { scope: './' },
 
   ready (registration) {
-    console.log(`sw file: ${process.env.SERVICE_WORKER_FILE}`)
-    console.log('Service worker is active. :) ?')
+    // console.log(`sw file: ${process.env.SERVICE_WORKER_FILE}`)
+    console.log('Service worker is active. :)')
   },
 
   registered (registration) {
     console.log('Service worker has been registered.')
-
-    // this.addEventListener('message', event => {
-    //   console.log(`client sent me: ${event.data}`);
-
-    //   event.source.postMessage("hi client")
-    // })
-
-    // self.addEventListener('message', event => {
-    //   console.log(`client sent me: ${event.data} (self2)`);
-
-    //   event.source.postMessage("hi client")
-    // })
   },
 
   cached (registration) {
@@ -52,9 +40,3 @@ register(process.env.SERVICE_WORKER_FILE, {
     console.error('Error during service worker registration:', err)
   }
 })
-
-// self.addEventListener('message', event => {
-//   console.log(`client sent me: ${event.data} (self)`);
-
-//   // event.source.postMessage("hi client")
-// })

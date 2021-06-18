@@ -11,18 +11,46 @@
 			<div class="distance"> Distancia <br> {{ distance.toFixed(3) }} km</div>
 		</div>
 		
-    <div class="flex-row control">
-      <button class="start show" @click="start">INICIAR</button>
+    <div v-if="$store.getters.username != null" class="flex-row control">
+      <button v-if="$store.getters.tracking == false" class="start" @click="start">INICIAR</button>
       <button class="pause hide">PAUSAR</button>
-      <button class="stop hide" @click="stop">FINALIZAR</button>
+      <button v-if="$store.getters.tracking == true" class="stop" @click="stop">FINALIZAR</button>
     </div>
-	</div> 
+    <div v-else class="subtitle">Para usar esta funcionalidad tienes que estar autenticado</div> 
+
+    <q-dialog v-model="popup">
+      <q-card class="card">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">Ruta finalizada</div>
+          <q-space></q-space>
+          <q-btn icon="close" flat round dense v-close-popup></q-btn>
+        </q-card-section>
+
+        <q-card-section>
+					<q-form @submit="onSubmit" class="q-gutter-md form">
+
+						<p class="subtitle">Distancia</p><p class="data">{{ distance.toFixed(3) }} km</p>
+						<p class="subtitle">Duración</p><p class="data">{{ parseTime() }}</p>
+
+						<q-input id="title" filled v-model="title"
+							label="Nombre de la ruta" lazy-rules />
+						<q-input id="description" filled v-model="description"
+							label="Descripción de la ruta" lazy-rules />
+
+						<div class="form-btn">
+							<q-btn id="submit" icon="check" label="Guardar" type="submit" color="primary" v-close-popup/>
+						</div>
+					</q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog> 
+  </div>
 </template>
 
 
 <script>
 import { api } from '../boot/axios';
-import { notifyWarning } from '../boot/utils';
+import { notifyCreated, notifyWarning } from '../boot/utils';
 
 export default {
 	name: "ControlBox",
@@ -37,13 +65,15 @@ export default {
       },
       distance: 0,
       time: 0,
-      amountOfTime: 0
+      description: null,
+      title: null,
+      amountOfTime: 0,
+      popup: false
     }
   },
   methods: {
     start() {
       this.amountOfTime = 0;
-      this.changeButtons();
       this.$store.dispatch('setTrackingAction', true);
 
       api.post('trails', { "user": this.$store.getters.username }, { 'Authorization': 'Bearer ' + this.$store.getters.token })
@@ -81,49 +111,60 @@ export default {
     stop() {
       clearInterval(this.time);
       navigator.geolocation.clearWatch(this.geolocationId);
-      this.changeButtons();
+      this.finishTrail();
       this.$store.dispatch('setTrackingAction', false);
       this.$store.dispatch('setTrailAction', { "id": null });
     },
     success(pos) {
-      let lon = pos.coords.longitude;
       let lat = pos.coords.latitude;
+      let lon = pos.coords.longitude;
 
-      api.put(`trails/${this.trailId}/point`, 
-        { "longitude": lon, "latitude": lat, "time": this.amountOfTime },
+      if (!this.$store.getters.points.length || this.$store.getters.lastPoint[0] != lat || this.$store.getters.lastPoint[1] != lon) {
+        api.put(`trails/${this.trailId}/point`, 
+          { "longitude": lon, "latitude": lat, "time": this.amountOfTime },
+          { 'Authorization': 'Bearer ' + this.$store.getters.token })
+          .then(res => {
+            if (res.status === 200) 
+              return res.data;
+          })
+          .then(data => {
+            this.distance = data.distance;
+            console.log(`puntos: ${data.points.length}`)
+            this.$store.dispatch('setLastPointAction', [lat, lon]);
+            this.$store.dispatch('setPointsAction', data.points);
+          })
+          .catch(err => {
+            if (err.respose === 404)
+              notifyWarning(this, "Punto no añadido");
+            else
+              notifyWarning(this, `ERROR: ${err}`);
+          })
+      }
+    },
+    error() {
+      notifyWarning(this, "Error al obtener la ubicación");
+    },
+    finishTrail(){
+      this.popup = true;
+    },
+    onSubmit() {
+      api.put(`trails/${this.trailId}`, 
+        { "title": this.title, "description": this.description },
         { 'Authorization': 'Bearer ' + this.$store.getters.token })
         .then(res => {
           if (res.status === 200) 
             return res.data;
         })
         .then(data => {
-          this.distance = data.distance;
-          this.$store.dispatch('setPointsAction', data.points);
-          console.log(this.$store.getters.points);
-        })
+          notifyCreated(this, "Ruta guardada");
+            this.$router.push("/");
+          })
         .catch(err => {
           if (err.respose === 404)
-            notifyWarning(this, "Punto no añadido");
+            notifyWarning(this, "Ruta guardada");
           else
             notifyWarning(this, `ERROR: ${err}`);
         })
-    },
-    error() {
-      notifyWarning(this, "Error al obtener la ubicación");
-    },
-    changeButtons() {
-      if (!this.$store.getters.tracking) {
-        document.querySelector(".start").classList.remove("show");
-        document.querySelector(".start").classList.add("hide");
-        document.querySelector(".stop").classList.remove("hide");
-        document.querySelector(".stop").classList.add("show");
-      }
-      else {
-        document.querySelector(".start").classList.remove("hide");
-        document.querySelector(".start").classList.add("show");
-        document.querySelector(".stop").classList.remove("show");
-        document.querySelector(".stop").classList.add("hide");
-      }
     },
     updateTime() {
       this.amountOfTime += 1;
@@ -186,10 +227,25 @@ export default {
   height: 80px;
   width: 80px;
   border: 1px solid $primary;
-	// background-color: rgba(209, 73, 31, 0.521);
-    filter: drop-shadow(0 0 2px $primary);
+  filter: drop-shadow(0 0 2px $primary);
 	background-color: $primary;
   color: white;
-	// background-color: ;
+}
+
+.card {
+	width: 500px;
+}
+
+.subtitle {
+  width: 100%;
+  justify-content: space-around;
+  text-align: center;
+	font-weight: bold;
+	margin-top: 20px;
+}
+
+.form-btn {
+	text-align: center;
+  margin-top: 20px;
 }
 </style>

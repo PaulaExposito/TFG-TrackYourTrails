@@ -9,3 +9,7 @@ export function setTracking(state, data) {
 export function setPoints(state, data) {
     state.points = data;
 }
+
+export function setLastPoint(state, data) {
+    state.lastPoint = data;
+}

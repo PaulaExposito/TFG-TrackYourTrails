@@ -69,7 +69,7 @@ async function addPointToTrail(idDTO, trailDTO) {
   let dist = trail.distance;
   
   if (points.length) {
-    dist = distance(points[points.length - 1].latitude, points[points.length - 1].longitude, trailDTO.latitude, trailDTO.longitude, "K");
+    dist += distance(points[points.length - 1].latitude, points[points.length - 1].longitude, trailDTO.latitude, trailDTO.longitude, "K");
   }
 
   trail.points.push(trailDTO);

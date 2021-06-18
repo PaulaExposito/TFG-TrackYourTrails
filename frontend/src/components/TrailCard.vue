@@ -2,7 +2,7 @@
 <div class="card" @click="openCard">
   <div class="data">
     <div class="title"> {{ title }} </div>
-    <div class="desc"> {{ distance }} km | {{ time }} h</div>
+    <div class="desc"> {{ distance.toFixed(3) }} km | {{ parseTime() }} </div>
   </div>
 </div>
 </template>
@@ -17,8 +17,8 @@ export default {
     return {
       id: null,
       title: null,
-      time: null,
-      distance: null
+      time: 0,
+      distance: 0
     }
   },
   mounted() {
@@ -34,7 +34,13 @@ export default {
         id: this.id
       });
 			this.$router.push("/trail");
-		}
+		},
+    parseTime() {
+      let hh = parseInt(this.time / (60 * 60));
+      let mm = parseInt((this.time / 60) % 60);
+
+      return `${hh} horas y ${mm} minutos`;
+    }
 	}
 }
 </script>

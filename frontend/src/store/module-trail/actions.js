@@ -9,3 +9,7 @@ export function setTrackingAction(context, data) {
 export function setPointsAction(context, data) {
     context.commit('setPoints', data);
 }
+
+export function setLastPointAction(context, data) {
+    context.commit('setLastPoint', data);
+}

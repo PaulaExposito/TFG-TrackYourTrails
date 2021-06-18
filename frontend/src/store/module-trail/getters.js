@@ -9,3 +9,7 @@ export function tracking(state) {
 export function points(state) {
     return state.points;
 }
+
+export function lastPoint(state) {
+    return state.lastPoint;
+}

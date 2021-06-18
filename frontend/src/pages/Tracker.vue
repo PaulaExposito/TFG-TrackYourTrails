@@ -1,9 +1,7 @@
 <template>
   <q-page padding class="flex">
-
     <Map class="map-container"/>
     <ControlBox/>
-
   </q-page>
 </template>
 
@@ -25,18 +23,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .flex {
   display: flexbox;
   flex-direction: column;
   align-items: center;
   padding-top: 70px;
 }
-
-// .map-container {
-//     height: 600px;
-//     width: 1000px;
-//     background-color: indianred;
-// }
-
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<h4> ¿Qué ruta quieres hacer hoy? </h4>
-		<template v-if="$store.getters.username != null"><h5 @click="goToMyTrails"> Ver mis rutas </h5></template>
+		<!-- <template v-if="$store.getters.username != null"><h5 @click="goToMyTrails"> Ver mis rutas </h5></template> -->
 		<div class="cards">
 			<TrailCard v-for="(i,j) in trails" :key="j" :trail="i"></TrailCard> 
 		</div>
