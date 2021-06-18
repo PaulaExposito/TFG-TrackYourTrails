@@ -1,7 +1,15 @@
-export function setTrailAction (context, data) {
+export function setTrailAction(context, data) {
     context.commit('setTrail', data);
 }
 
-// export function logOutAction (context) {
-//     context.commit('logOut');
-// }
+export function setTrackingAction(context, data) {
+    context.commit('setTracking', data);
+}
+
+export function setPointsAction(context, data) {
+    context.commit('setPoints', data);
+}
+
+export function setLastPointAction(context, data) {
+    context.commit('setLastPoint', data);
+}

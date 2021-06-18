@@ -5,16 +5,13 @@
 		</div>
 		<div class="content">
 			<h4>Descripción</h4>
-			<template v-if="trail.description == null">
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-			</template>
-			<template v-else>{{ trail.description }}</template>
+			{{ trail.description }}
 			<h4>Datos</h4>
-			<b>Longitud:</b> {{ trail.distance }} km <br>
-			<b>Tiempo:</b> {{ trail.time }} h
+			<b>Longitud:</b> {{ trail.distance.toFixed(3) }} km <br>
+			<b>Tiempo:</b> {{ parseTime() }} 
 			
 			<h4>Ubicación</h4>
-			<div class="map"></div>
+			<MapOverview :points="trail.points"></MapOverview>
 		</div>
 	</div>
 </template>
@@ -23,8 +20,13 @@
 import { api } from '../boot/axios';
 import { notifyWarning } from '../boot/utils';
 
+import MapOverview from '../components/MapOverview.vue';
+
 export default {
 	name: "Trail",
+	components: {
+		MapOverview
+	},
 	data() {
 		return {
 			trail: {
@@ -32,8 +34,8 @@ export default {
 				title: null,
 				description: null,
 				date: null,
-				distance: null,
-				time: null,
+				distance: 0,
+				time: 0,
 				points: []
 			}
 		}
@@ -51,6 +53,7 @@ export default {
 				})
 				.then(data => {
 					this.trail = data;
+					this.$store.dispatch('setPointsAction', this.trail.points)
 				})
 				.catch(err => {
 					if (err.respose.status === 404)
@@ -58,8 +61,18 @@ export default {
 					else	
 						notifyWarning(this, `Error desconocido: ${err}`);
 				})
+		},
+		parseTime() {
+			let hh = parseInt(this.trail.time / (60 * 60));
+			let mm = parseInt((this.trail.time / 60) % 60);
+			let ss = this.trail.time % 60;
+	
+			return (hh < 10 ? `0${hh}` : hh) + ":" + (mm < 10 ? `0${mm}` : mm) + ":" + (ss < 10 ? `0${ss}` : ss);
 		}
-	}
+	},
+	beforeDestroyed() {
+		this.$store.dispatch('setTrailAction', { "id": null });
+	},
 }
 </script>
 
@@ -104,22 +117,6 @@ export default {
 .content {
   width: 75%;
 }
-
-.map {
-  height: 150px;
-  width: 400px;
-  background-color: orange;
-	margin-bottom: 50px;
-}
-
-// .reviews {
-//   height: 300px;
-//   width: 100%;
-//   background-color: lightgreen;
-// 	padding-bottom: 40px;
-// 	margin-bottom: 50px;
-// }
-
 
 @media screen and (min-width: 800px) {
 	.content {

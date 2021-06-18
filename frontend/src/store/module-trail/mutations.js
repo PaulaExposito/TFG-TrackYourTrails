@@ -1,7 +1,15 @@
-export function setTrail (state, data) {
+export function setTrail(state, data) {
     state.id = data.id;
 }
 
-// export function logOut (state) {
-//     state.token = null;
-// }
+export function setTracking(state, data) {
+    state.tracking = data;
+}
+
+export function setPoints(state, data) {
+    state.points = data;
+}
+
+export function setLastPoint(state, data) {
+    state.lastPoint = data;
+}

@@ -91,7 +91,7 @@ router
         }
         await next();
     })
-    .put('/:trail/point', async (ctx, next) => {
+    .put('/:trail/point', authenticated, async (ctx, next) => {
         const res = await trailService.addPointToTrail(ctx.params.trail, ctx.request.body);
         if (res == -1) {
             ctx.response.body = { msg: "Trail not found" };

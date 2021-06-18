@@ -115,6 +115,8 @@ export default {
 		},
 		formatUsersString(str) {
 			let index = str.lastIndexOf(','); 
+			if (this.event.users.length <= 1)
+				return str;
 			return str.substring(0, index) + ' y' + str.substring(index + 1, str.length);
 		}
 	}
