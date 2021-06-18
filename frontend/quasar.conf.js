@@ -123,7 +123,7 @@ module.exports = function (/* ctx */) {
     pwa: {
       workboxPluginMode: 'InjectManifest', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {
-        swSrc: '/app/src-pwa/custom-service-worker.js'
+        swSrc: './src-pwa/custom-service-worker.js'
       }, // only for GenerateSW
       manifest: {
         name: `Track Your Trails`,
