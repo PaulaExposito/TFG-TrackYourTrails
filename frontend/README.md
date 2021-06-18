@@ -1,26 +1,17 @@
-# Track Your Trails (trackyourtrails)
+# Frontend
 
 
 
-## Install the dependencies
+### Cómo usar
+
+Para ejecutar la aplicación frontend se hace uso de un contenedor de Docker. La imagen se crea y se ejecuta el contenedor al ejecutar el script ```run.sh```. Se abre el puerto 8080 del contenedor y se mapea al de la máquina local, por lo que podemos acceder desde ```localhost:8080```.
+
+
+También puede ejecutarse sin hacer uso de Docker, utilizando los siguientes comandos:
+
 ```bash
 npm install
+quasar dev -m pwa 
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
-```bash
-quasar dev
-```
-
-### Lint the files
-```bash
-npm run lint
-```
-
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.conf.js](https://v1.quasar.dev/quasar-cli/quasar-conf-js).
+Para preparar la aplicación para producción se utiliza ```quasar build -m pwa```.
