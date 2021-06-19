@@ -1,4 +1,5 @@
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
+import { mountFactory } from '@quasar/quasar-app-extension-testing-unit-jest';
 import Vuex from 'vuex'
 import nock from 'nock'
 import flushPromises from 'flush-promises'
@@ -16,18 +17,24 @@ const components = Object.keys(All).reduce((object, key) => {
   return object;
 }, {});
 
-
-// jest.mock("axios", () => {
-//     put: () => Promise.resolve('tokensito')
-//     login: () => Promise.resolve(true)
-// });
-
-// const api_login = () => Promise.resolve(true)
-
-
 const localVue = createLocalVue();
 localVue.use(Vuex)
 localVue.use(Quasar, { components });
+
+const factory = mountFactory(LogIn, {
+  mount: {
+    localVue,
+    store: new Vuex.Store({
+			state: {
+				"username": null,
+				"token": null
+			}
+		}),
+  },
+  quasar: {
+    components: components
+  },
+});
 
 
 describe('SignIn.vue', () => {
@@ -35,14 +42,17 @@ describe('SignIn.vue', () => {
 	let title, usernameInput, passwordInput, submitButton;
 
 	let state;
-    const $router = { push: jest.fn() };
+	const $router = { push: jest.fn() };
 
-    const wrapper = shallowMount(LogIn, {
-      localVue,
-	  store: new Vuex.Store({ state }),
-      mocks: { $router }
-    });
-    const vm = wrapper.vm;
+	// const wrapper = shallowMount(LogIn, {
+	// 	localVue,
+	// 	store: new Vuex.Store({ state }),
+	// 	mocks: { $router }
+	// });
+
+	const wrapper = factory();
+
+	const vm = wrapper.vm;
 
 
 	beforeAll(() => {
@@ -52,23 +62,18 @@ describe('SignIn.vue', () => {
 		submitButton = wrapper.find('#submit');
 	});
 
+	it('Is login component', () => {
+			expect(wrapper.text()).toMatch("Login");
+	});
 
-	// beforeEach(() => {
-	// 	state = { ...initialState };
-	// });
-
-    it('Is login component', () => {
-        expect(wrapper.text()).toMatch("Login");
-    });
-
-    it('Component has the required components', () => {
-        expect(title.exists()).toBe(true);
-        expect(title.text()).toBe("Login");
-        expect(usernameInput.exists()).toBe(true);
-        expect(passwordInput.exists()).toBe(true);
-        expect(submitButton.exists()).toBe(true);
-        expect(wrapper.find('#reset').exists()).toBe(true);
-    });
+	it('Component has the required components', () => {
+			expect(title.exists()).toBe(true);
+			expect(title.text()).toBe("Login");
+			expect(usernameInput.exists()).toBe(true);
+			expect(passwordInput.exists()).toBe(true);
+			expect(submitButton.exists()).toBe(true);
+			expect(wrapper.find('#reset').exists()).toBe(true);
+	});
 
 
 	it('API', async () => {
@@ -78,51 +83,11 @@ describe('SignIn.vue', () => {
 			.get('/api/users/paula')
 			.reply(200, {"friends":[],"_id":"60a6857a841bc559b6e6f937","username":"paula","password":"$2a$10$dvD05aVxMnmt.dFMuy7kketNrQRGpgS/4CY1Wt.pj6S9VI425EXjG","__v":0})
 
-
 		const result = await api.get(`users/${expectedUser}`)
 		await flushPromises();
+	});
 
-		// console.log(request.interceptors[0].body)
-
-		expect(result.data).toEqual({"friends":[],"_id":"60a6857a841bc559b6e6f937","username":"paula","password":"$2a$10$dvD05aVxMnmt.dFMuy7kketNrQRGpgS/4CY1Wt.pj6S9VI425EXjG","__v":0})
-		expect(request.isDone()).toBe(true);
-	})
-
-    // it('Login succesfull and redirect to homepage', async () => {
-    //   api_login.mockResolvedValue();
-
-	//   wrapper.find("#submit").trigger('click');
-	//   expect(api_login).toBeCalled();
-	//   await wrapper.vm.$nextTick();
-
-	//   expect($router.push).toBeCalledWith('/');
-    // });
-
-    // it('Login a user that does not exist', async () => {
-
-	// 	usernameInput.setValue = "paula"
-	// 	passwordInput.setValue = "paula123"
-
-    //     // await usernameInput.setValue("tester");
-    //    	// await passwordInput.setValue("tester123");
-	// 	await submitButton.trigger('click');
-        
-	// 	const request = await nock('http://localhost:3000')
-	// 		.put('/api/login/')
-	// 		.reply(200, {"friends":[],"_id":"60a6857a841bc559b6e6f937","username":"paula","password":"$2a$10$dvD05aVxMnmt.dFMuy7kketNrQRGpgS/4CY1Wt.pj6S9VI425EXjG","__v":0})
-
-		
-	// 	await flushPromises();
-
-	// 	console.log($router.push)
-
-	// 	expect($router.push).toBeCalledWith('/');
-
-    //     // expect(wrapper.vm.token).toBe('tokensito');
-    // });
-
-
-	it('Reset dunctionality', async () => {
+	it('Reset functionality', async () => {
 		usernameInput.setValue = "paula";
 		passwordInput.setValue = "paula123";
 
@@ -148,4 +113,22 @@ describe('SignIn.vue', () => {
 		expect(true).toBe(true);
 		// expect(request.interceptors[0].body).toBe(true);
 	});
+
+	test('html to contain', () => {
+    expect(wrapper.html().replace(/ /g, "").trim()).not.toBe(`
+<div class="container"><br>
+<h3 id="title">Login</h3>ddd
+<div align="center" class="q-pa-md form" style="width: 400px;">
+<q-form-stub class="q-gutter-md">
+<q-input-stub rules="function (val) { return val &amp;&amp; val.length > 0 || 'Introduce un nombre de usuario'; }" lazyrules="true" label="Usuario" filled="true" type="text" id="username"></q-input-stub>
+<q-input-stub rules="function (val) { return val !== null &amp;&amp; val !== '' || 'Introduce una contraseña'; },function (val) { return val.length >= 4 ||'La contraseña debe tener al menos 4 caracteres'; }" lazyrules="true" label="Contraseña" filled="true" type="password" id="password"></q-input-stub>
+<div>
+<q-btn-stub ripple="true" align="center" type="submit" label="Login" color="secondary" id="submit"></q-btn-stub>
+<q-btn-stub ripple="true" align="center" type="reset" label="Reset" flat="true" color="secondary" id="reset" class="q-ml-sm"></q-btn-stub>
+</div>
+</q-form-stub>
+</div>
+</div>
+		`.replace(/ /g, "").trim());
+	})
 });

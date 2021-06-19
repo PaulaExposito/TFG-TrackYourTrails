@@ -42,6 +42,7 @@ module.exports = {
     '^quasar$': 'quasar/dist/quasar.common.js',
     '^~/(.*)$': '<rootDir>/$1',
     '^src/(.*)$': '<rootDir>/src/$1',
+    '^leaflet/dist/leaflet.css$': 'leaflet/dist/leaflet.css',
     '.*css$': '@quasar/quasar-app-extension-testing-unit-jest/stub.css',
   },
   transform: {

@@ -31,15 +31,14 @@ describe('SignUp.vue', () => {
 
 
     it('Is login component', () => {
-        expect(wrapper.text()).toMatch("Regístrate");
+      expect(wrapper.text()).toMatch("Regístrate");
     })
 
-    // it('Login a user', async () => {
-    //     wrapper.find("#username").setValue("user");
-    //     wrapper.find("#password").setValue("pass");
-
-    //     wrapper.find('submit').trigger('click');
-    //     await flushPromises();
-    //     expect(wrapper.vm.token).toBe('tokensito');
-    // })
+    test('mounts without errors', () => {
+      expect(wrapper).toBeTruthy();
+    });
+  
+    test('html to contain', () => {
+      expect(wrapper.html()).not.toBe(null);
+    })
 })
