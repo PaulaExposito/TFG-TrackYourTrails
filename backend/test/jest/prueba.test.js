@@ -1,9 +1,29 @@
-const sum = require('../../services/sum');
+const User = require('../../models/User');
+const password = "pass123";
+const user = new User({"password": password});
 
-test('adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3);
-});
 
-test('Test de prueba 1', () => {
-    expect(true).toBe(true);
+describe("User model tests", () => {
+
+  let encryptPass;
+
+  beforeAll(async () => {
+    encryptPass = await user.encryptPass(password);
+  });
+  
+  test('Encrypt password', async () => {
+    expect(encryptPass).not.toBe(null);
+    expect(typeof encryptPass).toBe('string');
+  });
+  
+  test('Validate pass (pass)', async () => {
+    const validatePass = await user.validatePass(password);
+    expect(validatePass).not.toBe(true);
+  });
+  
+  test('Validate pass (fails)', async () => {
+    const validatePass = await user.validatePass("badPassword");
+    expect(validatePass).toBe(false);
+  });
+
 });

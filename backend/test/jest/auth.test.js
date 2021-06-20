@@ -1,5 +1,4 @@
 const auth = require('../../services/auth');
-// const mongoose = require('mongoose');
 
 const rightTestDTO = {
     username: "tester",
